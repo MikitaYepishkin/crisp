@@ -51,7 +51,7 @@ export class SelectorService {
   };
 
   public async mapEntitysToDtos(selectorEntitys: SelectorEntityWithId[]) : Promise<SelectorDto[]> {
-    let result = [];
+    const result = [];
 
     for(let i = 0; i < selectorEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(selectorEntitys[i]));

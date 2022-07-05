@@ -56,7 +56,7 @@ export class ProjectService {
   };
 
   public async mapEntitysToDtos(projectEntitys: ProjectEntityWithId[]) : Promise<ProjectDto[]> {
-    let result = [];
+    const result = [];
 
     for(let i = 0; i < projectEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(projectEntitys[i]));
@@ -86,7 +86,7 @@ export class ProjectService {
     if(updatedProject.isDefault) {
       const projects = await this.getProjects();
       const selt = this;
-      for(var i=0; i<projects.length; ++i) {projects
+      for(let i=0; i<projects.length; ++i) {projects
         const _id = projects[i]._id;
         console.log(`__id: ${_id} __id: ${id} ===: ${_id === id}`)
         if(_id !== id) {

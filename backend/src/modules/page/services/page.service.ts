@@ -49,7 +49,7 @@ export class PageService {
   };
 
   public async mapEntitysToDtos(pageEntitys: PageEntityWithId[]) : Promise<PageDto[]> {
-    let result = [];
+    const result = [];
 
     for(let i = 0; i < pageEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(pageEntitys[i]));

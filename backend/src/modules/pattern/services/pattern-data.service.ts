@@ -29,7 +29,7 @@ export class PatternDataService {
   }
 
   public async asyncMapClone(datas: any, servive: any, transformFunc: any) {
-    let list = [];
+    const list = [];
     
     for(let i = 0; i< datas.length; ++i){
       const data = datas[i];
@@ -70,7 +70,7 @@ export class PatternDataService {
   };
 
   public async mapEntitysToDtos(patternDataEntitys: PatternDataEntityWithId[]) : Promise<PatternDataDto[]> {
-    let result = [];
+    const result = [];
 
     for(let i = 0; i < patternDataEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(patternDataEntitys[i]));

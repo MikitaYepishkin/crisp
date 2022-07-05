@@ -59,7 +59,7 @@ export class PatternService {
   };
 
   public async mapEntitysToDtos(patternEntitys: PatternEntityWithId[]) : Promise<PatternDto[]> {
-    let result = [];
+    const result = [];
 
     for(let i = 0; i < patternEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(patternEntitys[i]));

@@ -57,7 +57,7 @@ export class ElementService {
   }
 
   public async asyncMapClone(datas: any, servive: any, transformFunc: any) {
-    let list = [];
+    const list = [];
     
     for(let i = 0; i< datas.length; ++i){
       const data = datas[i];
@@ -169,7 +169,7 @@ export class ElementService {
   };
 
   public async mapEntitysToDtos(elementEntitys: ElementEntityWithId[]) : Promise<ElementDto[]> {
-    let result = [];
+    const result = [];
 
     for(let i = 0; i < elementEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(elementEntitys[i]));

@@ -53,7 +53,7 @@ export class FrameworkService {
   };
 
   public async mapEntitysToDtos(frameworkEntitys: FrameworkEntityWithId[]) : Promise<FrameworkDto[]> {
-    let result = [];
+    const result = [];
 
     for(let i = 0; i < frameworkEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(frameworkEntitys[i]));

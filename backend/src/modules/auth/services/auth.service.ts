@@ -72,7 +72,7 @@ export class AuthService {
     return { accessToken, refreshToken, expiresIn: `${expiresIn}h` };
   }
 
-  public async generateProjectData(projectIds: ProjectEntityWithId[], isAdmin: boolean = false): Promise<initProjectData> {
+  public async generateProjectData(projectIds: ProjectEntityWithId[], isAdmin = false): Promise<initProjectData> {
     console.log('--------------- VVVV ----- 1 -----');
     const projectsEntity = isAdmin ? await this.projectService.getProjects()
       :await this.projectService.getProjects({
