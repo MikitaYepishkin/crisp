@@ -1,4 +1,4 @@
-import { IsArray, IsEmail, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsArray, IsDate, IsEmail, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 
@@ -24,10 +24,14 @@ export class UpdateUserDto {
   @IsArray()
   @IsOptional()
   @ApiProperty({ example: [new Types.ObjectId(), new Types.ObjectId()] })
-  public readonly projects?: Types.ObjectId[];
+  public readonly projects?: Types.ObjectId[] | any[];
 
   @IsArray()
   @IsOptional()
   @ApiProperty({ description: 'Granted permissions for particular user.' })
   public readonly grants?: string[];
+
+  @IsDate()
+  @ApiProperty({ example: new Date(Date.now()) })
+  public readonly date: Date = new Date(Date.now());
 }

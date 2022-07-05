@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import * as mongoose from 'mongoose';
-import { FrameworkEntity } from '../framework/framework.entity';
+import { FrameworkEntity, FrameworkEntityWithId } from '../framework/framework.entity';
 
 @Schema()
 export class PatternEntity {
@@ -15,7 +15,7 @@ export class PatternEntity {
     description: 'Framework Mongo Id',
   })
   @Prop({ type: Types.ObjectId, ref: FrameworkEntity.name })
-  public frameworkId: FrameworkEntity;
+  public frameworkId: FrameworkEntityWithId;
 
   @ApiProperty({ maxLength: 50 })
   @Prop({ type: String, required: true })
@@ -24,6 +24,14 @@ export class PatternEntity {
   @ApiProperty({ maxLength: 50 })
   @Prop({ type: String, required: true })
   public script: string;
+
+  @ApiProperty()
+  @Prop({
+    type: Types.Date,
+    required: false,
+    description: 'Project Date Mongo Id',
+  })
+  public date: Date = new Date(Date.now());
 }
 
 export interface PatternEntityWithId extends PatternEntity {

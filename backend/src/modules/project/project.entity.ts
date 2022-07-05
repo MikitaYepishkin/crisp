@@ -27,6 +27,14 @@ export class ProjectEntity {
   @Prop({ type: Boolean, required: true })
   @IsOptional()
   public isDefault?: boolean;
+
+  @ApiProperty()
+  @Prop({
+    type: Types.Date,
+    required: false,
+    description: 'Project Date Mongo Id',
+  })
+  public date: Date = new Date(Date.now());
 }
 
 export interface ProjectEntityWithId extends ProjectEntity {

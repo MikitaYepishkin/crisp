@@ -49,9 +49,13 @@ Use `.env.example` as a reference.
 
 `docker-compose --env-file .env.<env-name e.g: production> up -d`
 
+`sudo docker-compose --env-file .env.development up -d`
+
 ### 4. Start app
 
 `npm run start:dev`
+
+`sudo npm run start:dev`
 
 ## Technological stack
 

@@ -4,6 +4,7 @@ import { Model, Types } from 'mongoose';
 import { ErrorTypeEnum } from 'src/common/enums';
 import { createError } from 'src/common/helpers';
 import { CreateFrameworkDto, UpdateFrameworkDto } from '../dto';
+import { FrameworkDto } from '../dto/framework.dto';
 import { FrameworkEntity, FrameworkEntityWithId } from '../framework.entity';
 
 @Injectable()
@@ -30,9 +31,36 @@ export class FrameworkService {
     return this.frameworkRepository.remove({ [field]: { $in: values } });
   }
 
-  public async getFrameworks(): Promise<FrameworkEntity[]> {
-    return this.frameworkRepository.find({});
+  public async  clone(page: FrameworkEntityWithId) {
+    return this.createFramework({
+      name: page.name,
+      description: page.name,
+      date: new Date(Date.now())
+    });
   }
+
+  public async getFrameworks(options = {}): Promise<FrameworkEntityWithId[]> {
+    return this.frameworkRepository.find(options);
+  }
+
+  public async mapEntityToDto(frameworkEntity: FrameworkEntityWithId) : Promise<FrameworkDto> {
+    return {
+      _id: frameworkEntity._id.toString() || '',
+      date: new Date(Date.now()),
+      name: frameworkEntity.name || '',
+      description: frameworkEntity.description || ''
+    }
+  };
+
+  public async mapEntitysToDtos(frameworkEntitys: FrameworkEntityWithId[]) : Promise<FrameworkDto[]> {
+    let result = [];
+
+    for(let i = 0; i < frameworkEntitys.length; ++i) {
+      result.push(await this.mapEntityToDto(frameworkEntitys[i]));
+    }
+
+    return result;
+  };
 
   public removeFramework(field: string, value: string) {
     return this.frameworkRepository

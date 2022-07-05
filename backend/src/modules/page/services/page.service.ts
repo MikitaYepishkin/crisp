@@ -4,6 +4,7 @@ import { Model, Types } from 'mongoose';
 import { ErrorTypeEnum } from 'src/common/enums';
 import { createError } from 'src/common/helpers';
 import { CreatePageDto, UpdatePageDto } from '../dto';
+import { PageDto } from '../dto/page.dto';
 import { PageEntity, PageEntityWithId } from '../page.entity';
 
 @Injectable()
@@ -12,6 +13,15 @@ export class PageService {
 
   public async createPage(createPageDto: CreatePageDto): Promise<PageEntityWithId> {
     return new this.pageRepository(createPageDto).save();
+  }
+
+  public async  clone(page: PageEntityWithId) {
+    return this.createPage({
+      description: page.description,
+      name: page.name,
+      projectId: new Types.ObjectId(page.projectId._id),
+      date: page.date
+    });
   }
 
   public bulkInsertPages(createPageDto: CreatePageDto[]): Promise<PageEntityWithId[]> {
@@ -24,9 +34,29 @@ export class PageService {
     return this.pageRepository.remove({ [field]: { $in: values } });
   }
 
-  public async getPages(): Promise<PageEntity[]> {
-    return this.pageRepository.find({});
+  public async getPages(options = {}): Promise<PageEntityWithId[]> {
+    return this.pageRepository.find(options);
   }
+
+  public async mapEntityToDto(pageEntity: PageEntityWithId) : Promise<PageDto> {
+    return {
+      _id: pageEntity?._id?.toString() || '',
+      date: pageEntity.date,
+      name: pageEntity.name || '',
+      project: pageEntity.projectId?._id?.toString() || '',
+      description: pageEntity.description || ''
+    }
+  };
+
+  public async mapEntitysToDtos(pageEntitys: PageEntityWithId[]) : Promise<PageDto[]> {
+    let result = [];
+
+    for(let i = 0; i < pageEntitys.length; ++i) {
+      result.push(await this.mapEntityToDto(pageEntitys[i]));
+    }
+
+    return result;
+  };
 
   public removePage(field: string, value: string) {
     return this.pageRepository
@@ -39,7 +69,11 @@ export class PageService {
     id: Types.ObjectId,
     payload: UpdatePageDto,
   ): Promise<PageEntityWithId> {
-    return this.pageRepository.findByIdAndUpdate(id, payload, { new: true }).exec();
+    let updatedPage = payload;
+    if(updatedPage.projectId) {
+      updatedPage = {...updatedPage,projectId: new Types.ObjectId(updatedPage.projectId._id)};
+    }
+    return this.pageRepository.findByIdAndUpdate(id, updatedPage, { new: true }).exec();
   }
 
   public async deletePageById(id: Types.ObjectId): Promise<PageEntityWithId> {

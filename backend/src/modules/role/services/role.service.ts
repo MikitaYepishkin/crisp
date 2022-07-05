@@ -39,15 +39,16 @@ export class RoleService {
   public getRoleById(id: string) {
     const resource = populateRelation('resources', ResourceEntity.name);
     const permission = populateRelation('permissions', PermissionEntity.name);
+    const populate: any = {
+      ...resource,
+      populate: {
+        ...permission,
+      },
+    };
 
     return this.roleRepository
       .findOne({ _id: id })
-      .populate({
-        ...resource,
-        populate: {
-          ...permission,
-        },
-      })
+      .populate(populate)
       .exec();
   }
 }

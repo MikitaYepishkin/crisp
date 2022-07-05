@@ -67,6 +67,7 @@ export class UserController {
     @Param('id') id: string,
     @Body(new ValidationPipe()) updateUserDto: UpdateUserDto,
   ): Promise<UserEntity> {
+    console.log('------------------- [0] --------------------------');
     return this.userService.updateUserById(new Types.ObjectId(id), updateUserDto);
   }
 

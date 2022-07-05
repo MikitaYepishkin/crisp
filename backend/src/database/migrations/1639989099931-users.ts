@@ -19,7 +19,7 @@ const jwtService: JwtService = new JwtService({
 
 module.exports.up = async function () {
   const adminRole = await roleMongoService.getRoleByName(String(RoleTypeEnum.ADMIN));
-  const hashedPassword: string = await bcryptHashService.hashPassword(uuidv4());
+  const hashedPassword: string = await bcryptHashService.hashPassword('admin');
   const email = `${String(RoleTypeEnum.ADMIN).toLowerCase()}@gmail.com`;
   const token: string = jwtService.sign({ email });
 
@@ -31,6 +31,7 @@ module.exports.up = async function () {
     roles: [adminRole._id],
     projects: [],
     grants: [],
+    date: new Date(Date.now())
   });
 };
 

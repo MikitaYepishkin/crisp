@@ -4,13 +4,18 @@ import { Types } from 'mongoose';
 import { setValidationMessage } from 'src/common/helpers';
 
 export class ElementSelectorsDto {
-  @IsMongoId()
-  @IsOptional()
-  @ApiProperty({ example: new Types.ObjectId() })
-  public readonly elementId?: Types.ObjectId;
+  @IsString()
+  @MinLength(0, {
+    message: setValidationMessage('ElementCss should be more than'),
+  })
+  @MaxLength(50, {
+    message: setValidationMessage('ElementCss should be less than'),
+  })
+  @ApiProperty({ example: 'searchInput' })
+  public readonly elementId?: string;
 
   @IsString()
-  @MinLength(2, {
+  @MinLength(0, {
     message: setValidationMessage('ElementCss should be more than'),
   })
   @MaxLength(50, {
@@ -21,7 +26,7 @@ export class ElementSelectorsDto {
   public readonly elementCss?: string;
 
   @IsString()
-  @MinLength(2, {
+  @MinLength(0, {
     message: setValidationMessage('ElementXPath should be more than'),
   })
   @MaxLength(50, {
@@ -31,7 +36,7 @@ export class ElementSelectorsDto {
   @ApiProperty({ example: '//*[@id=searchInput]' })
   public readonly elementXPath?: string;
 
-  constructor(elementId: Types.ObjectId, elementCss: string, elementXPath: string) {
+  constructor(elementId: string, elementCss: string, elementXPath: string) {
     this.elementId = elementId;
     this.elementCss = elementCss;
     this.elementXPath = elementXPath;

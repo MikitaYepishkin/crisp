@@ -14,7 +14,11 @@ module.exports.up = async function () {
   const framework: FrameworkEntityWithId = await frameworkMongoService.getFrameworkByName(
     'WebdriverIO Cucumber Boilerplate',
   );
-  await projectMongoService.createProject({ ...project, frameworkId: framework._id });
+  await projectMongoService.createProject({
+    ...project,
+    frameworkId: framework._id,
+    date: new Date(Date.now())
+  });
 };
 
 module.exports.down = async function () {

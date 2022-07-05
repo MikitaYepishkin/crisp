@@ -4,6 +4,7 @@ const frameworkMongoService: FrameworkMongoService = new FrameworkMongoService()
 
 const framework = {
   name: 'WebdriverIO Cucumber Boilerplate',
+  date: new Date(Date.now()),
   description:
     'Cucumber Boilerplate\n\nStep patterns from Cucumber Boilerplate project to run WebdriverIO (v7) tests with Cucumber and brings true BDD to JavaScript.\n\nhttps://github.com/webdriverio/cucumber-boilerplate',
 };

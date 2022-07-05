@@ -19,8 +19,8 @@ import { Types } from 'mongoose';
 import { PermissionGuard } from 'src/common/guards';
 import { PermissionTypeEnum, ResourceTypeEnum } from 'src/common/enums';
 
-@ApiTags('frameworks')
-@Controller('frameworks')
+@ApiTags('framework')
+@Controller('framework')
 export class FrameworkController {
   constructor(private readonly frameworkService: FrameworkService) {}
 

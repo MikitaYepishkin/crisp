@@ -27,7 +27,7 @@ const elements = [
     description: '',
     selectors: {
       elementCss: '#searchInput',
-      elementId: new Types.ObjectId('61c1b5bed3dc3ec95cbdc4b6'),
+      elementId: 'searchInput',
       elementXPath: '//*[@id="searchInput"]',
     },
     pageObjectPattern: null,
@@ -45,7 +45,7 @@ const elements = [
     description: '',
     selectors: {
       elementCss: '.pure-button',
-      elementId: new Types.ObjectId(),
+      elementId: '',
       elementXPath: '//*[@id="search-form"]/fieldset/button',
     },
     pageObjectPattern: null,
@@ -61,7 +61,7 @@ const elements = [
     description: '',
     selectors: {
       elementCss: '#firstHeading',
-      elementId: new Types.ObjectId(),
+      elementId: 'firstHeading',
       elementXPath: '//*[@id="firstHeading"]',
     },
     pageObjectPattern: null,
@@ -83,6 +83,7 @@ module.exports.up = async function () {
   );
   const payload = elements.map((element) => ({
     ...element,
+    date: new Date(Date.now()),
     pageId: page._id,
     actionPatterns: element.actionPatterns.map((action) => ({ ...action, id: pattern._id })),
   }));

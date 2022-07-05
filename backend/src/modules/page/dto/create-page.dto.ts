@@ -1,11 +1,11 @@
-import { IsMongoId, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsDate, IsMongoId, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 import { setValidationMessage } from 'src/common/helpers';
 
 export class CreatePageDto {
   @IsString()
-  @MinLength(2, {
+  @MinLength(-1, {
     message: setValidationMessage('Page description should be more than'),
   })
   @MaxLength(20, {
@@ -28,4 +28,8 @@ export class CreatePageDto {
   @IsMongoId()
   @ApiProperty({ example: new Types.ObjectId() })
   public readonly projectId: Types.ObjectId;
+
+  @IsDate()
+  @ApiProperty({ example: new Date(Date.now()) })
+  public readonly date: Date = new Date(Date.now());
 }

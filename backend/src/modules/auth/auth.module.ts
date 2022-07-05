@@ -9,13 +9,23 @@ import { ConfigService } from 'src/config';
 import { UserModule } from '../user';
 import { BcryptHashService } from '../../common/services';
 import { RoleModule } from '../role/role.module';
+import { FrameworkModule } from '../framework/framework.module';
+import { ElementModule } from '../element/element.module';
+import { PageModule } from '../page/page.module';
+import { PatternModule } from '../pattern/pattern.module';
+import { ProjectModule } from '../project/project.module';
 
 @Module({
   imports: [
     UserModule,
+    FrameworkModule,
     RoleModule,
     JwtModule.registerAsync({ useClass: JwtConfigService, inject: [ConfigService] }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
+    ElementModule,
+    PageModule,
+    PatternModule,
+    ProjectModule
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, BcryptHashService],

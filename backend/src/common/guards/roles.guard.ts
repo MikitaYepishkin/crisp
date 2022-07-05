@@ -1,6 +1,7 @@
 import { RoleTypeEnum } from '../enums';
 import { CanActivate, ExecutionContext, Inject, mixin, Type } from '@nestjs/common';
 import { RoleService } from 'src/modules/role';
+import { isString } from 'lodash';
 
 export const RoleGuard = (role: RoleTypeEnum): Type<CanActivate> => {
   class RoleGuardMixin implements CanActivate {
@@ -11,7 +12,9 @@ export const RoleGuard = (role: RoleTypeEnum): Type<CanActivate> => {
       const user = request.user;
       const userRole = await this.roleService.getRoleByName(role);
 
-      return user?.roles.map(String).includes(String(userRole._id));
+      return user?.roles.map((role: any) => {
+        return role && role._id ? role._id.toString(): role.toString();
+      }).includes(String(userRole._id));
     }
   }
 

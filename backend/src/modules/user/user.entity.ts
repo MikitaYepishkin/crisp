@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import { RoleEntity } from '../../modules/role/role.entity';
 import * as mongoose from 'mongoose';
-import { ProjectEntity } from '../project/project.entity';
+import { ProjectEntity, ProjectEntityWithId } from '../project/project.entity';
 
 @Schema()
 export class UserEntity {
@@ -35,7 +35,7 @@ export class UserEntity {
     description: 'Project Mongo Ids',
   })
   @Prop({ type: Types.ObjectId, ref: ProjectEntity.name, default: [] })
-  public projects: ProjectEntity[];
+  public projects: ProjectEntityWithId[];
 
   @ApiProperty({
     type: [String],
@@ -43,6 +43,14 @@ export class UserEntity {
   })
   @Prop({ type: [String], default: [] })
   public grants: string[];
+
+  @ApiProperty()
+  @Prop({
+    type: Types.Date,
+    required: false,
+    description: 'Project Date Mongo Id',
+  })
+  public date: Date = new Date(Date.now());
 }
 
 export interface UserEntityWithId extends UserEntity {

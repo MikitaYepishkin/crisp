@@ -9,7 +9,8 @@ import { RoleEntity } from '../../../modules/role/role.entity';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(UserEntity.name) private readonly userRepository: Model<UserEntity>) {}
+  constructor(
+    @InjectModel(UserEntity.name) private readonly userRepository: Model<UserEntity>) {}
 
   public async getUserByRefreshToken(
     currentHashedRefreshToken: string,
@@ -18,16 +19,25 @@ export class UserService {
   }
 
   public async getUserEntityByEmail(email: string): Promise<UserEntityWithId | null> {
-    return this.userRepository.findOne({ email }).exec();
+    return this.userRepository.findOne({ email }).populate({
+      path: 'roles',
+      model: RoleEntity.name,
+    }).exec();
   }
 
   public async createUser(createUserDto: CreateUserDto): Promise<UserEntityWithId> {
-    return new this.userRepository(createUserDto).save();
+    const createUser: CreateUserDto = {
+      ...createUserDto,
+      roles: createUserDto.roles.map((roleId: any) => {
+        return Types.ObjectId();
+      })
+    };
+    return new this.userRepository(createUser).save();
   }
 
-  public async getUsers(): Promise<UserEntity[]> {
+  public async getUsers(options = {}): Promise<UserEntity[]> {
     return this.userRepository
-      .find({})
+      .find(options)
       .populate({
         path: 'roles',
         model: RoleEntity.name,
@@ -63,14 +73,15 @@ export class UserService {
   }
 
   public async removeRefreshToken(id: Types.ObjectId): Promise<UserEntityWithId> {
-    return this.updateUserById(id, { currentHashedRefreshToken: null });
+    return this.updateUserById(id, { currentHashedRefreshToken: null, date: new Date(Date.now()) });
   }
 
   public async setCurrentRefreshTokenAndGetUser(
     id: Types.ObjectId,
     refreshToken: string,
   ): Promise<UserEntityWithId> {
-    await this.updateUserById(id, { currentHashedRefreshToken: refreshToken });
+    console.log('--------------- 999 ----------');
+    await this.updateUserById(id, { currentHashedRefreshToken: refreshToken, date: new Date(Date.now()) });
     return this.getUserById(id);
   }
 

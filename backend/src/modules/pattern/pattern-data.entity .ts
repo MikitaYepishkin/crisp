@@ -21,6 +21,14 @@ export class PatternDataEntity {
   public customVars: {
     [key: string]: string | undefined;
   };
+
+  @ApiProperty()
+  @Prop({
+    type: Types.Date,
+    required: false,
+    description: 'Project Date Mongo Id',
+  })
+  public date: Date = new Date(Date.now());
 }
 
 export interface PatternDataEntityWithId extends PatternDataEntity {

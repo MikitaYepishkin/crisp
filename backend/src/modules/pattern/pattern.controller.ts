@@ -20,7 +20,7 @@ import { PermissionGuard } from 'src/common/guards';
 import { PermissionTypeEnum, ResourceTypeEnum } from 'src/common/enums';
 
 @ApiTags('patterns')
-@Controller('pattern')
+@Controller('patterns')
 export class PatternController {
   constructor(private readonly patternService: PatternService) {}
 
@@ -67,7 +67,7 @@ export class PatternController {
     @Param('id') id: string,
     @Body(new ValidationPipe()) updatePatternDto: UpdatePatternDto,
   ): Promise<PatternEntity> {
-    return this.patternService.updatePatternById(new Types.ObjectId(id), updatePatternDto);
+    return this.patternService.updatePatternById(new Types.ObjectId(id), { ...updatePatternDto, date: new Date(Date.now()) });
   }
 
   @Delete(':id')
@@ -98,6 +98,7 @@ export class PatternController {
   public async createPattern(
     @Body(new ValidationPipe()) createPatternDto: CreatePatternDto,
   ): Promise<PatternEntity> {
-    return this.patternService.createPattern(createPatternDto);
+    console.log('-- Pattern ----');
+    return this.patternService.createPattern({ ...createPatternDto, date: new Date(Date.now()) });
   }
 }

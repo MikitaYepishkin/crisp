@@ -2,8 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import * as mongoose from 'mongoose';
-import { PageEntity } from '../page/page.entity';
-import { PatternEntity } from '../pattern/pattern.entity';
+import { PageEntity, PageEntityWithId } from '../page/page.entity';
+import { PatternEntity, PatternEntityWithId } from '../pattern/pattern.entity';
+import { PatternDataEntity, PatternDataEntityWithId } from '../pattern/pattern-data.entity ';
 
 @Schema()
 export class ElementEntity {
@@ -20,7 +21,7 @@ export class ElementEntity {
     description: 'Page Mongo Id',
   })
   @Prop({ type: Types.ObjectId, ref: PageEntity.name })
-  public pageId: PageEntity;
+  public pageId: PageEntityWithId;
 
   @ApiProperty({
     type: Types.ObjectId,
@@ -34,21 +35,29 @@ export class ElementEntity {
     description: 'Object Pattern Mongo Id',
   })
   @Prop({ type: Types.ObjectId, ref: PatternEntity.name })
-  public pageObjectPatternId: PatternEntity | null;
+  public pageObjectPatternId: PatternEntityWithId | null;
 
   @ApiProperty({
     type: [Types.ObjectId],
     description: 'Action Pattern Mongo Id',
   })
-  @Prop({ type: Types.ObjectId, ref: PatternEntity.name })
-  public actionPatternIds: PatternEntity[];
+  @Prop({ type: Types.ObjectId, ref: PatternDataEntity.name })
+  public actionPatternIds: PatternDataEntityWithId[];
 
   @ApiProperty({
     type: Types.ObjectId,
     description: 'Patent Element Mongo Id',
   })
   @Prop({ type: Types.ObjectId, ref: ElementEntity.name })
-  public parentElementId?: ElementEntity;
+  public parentElementId?: ElementEntityWithId;
+
+  @ApiProperty()
+  @Prop({
+    type: Types.Date,
+    required: false,
+    description: 'Project Date Mongo Id',
+  })
+  public date: Date = new Date(Date.now());
 }
 
 export interface ElementEntityWithId extends ElementEntity {

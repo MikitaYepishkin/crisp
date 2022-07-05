@@ -1,4 +1,4 @@
-import { IsBoolean, IsMongoId, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsBoolean, IsDate, IsMongoId, IsString, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 import { setValidationMessage } from 'src/common/helpers';
@@ -31,4 +31,8 @@ export class CreateProjectDto {
   @IsMongoId()
   @ApiProperty({ example: new Types.ObjectId() })
   public readonly frameworkId: Types.ObjectId;
+
+  @IsDate()
+  @ApiProperty({ example: new Date(Date.now()) })
+  public readonly date: Date = new Date(Date.now());
 }

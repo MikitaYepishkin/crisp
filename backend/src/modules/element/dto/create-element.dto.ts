@@ -1,5 +1,7 @@
 import {
   IsArray,
+  IsDate,
+  IsEmpty,
   IsMongoId,
   IsOptional,
   IsString,
@@ -13,6 +15,9 @@ import { Type } from 'class-transformer';
 import { ElementSelectorsDto } from './element-selectors.dto';
 import { ElementPatternDataDto } from './element-pattern-data.dto';
 import { setValidationMessage } from 'src/common/helpers';
+import { PatternEntityWithId } from 'src/modules/pattern/pattern.entity';
+import { PatternDataEntityWithId } from 'src/modules/pattern/pattern-data.entity ';
+import { isNull } from 'lodash';
 
 export class CreateElementDto {
   @IsString()
@@ -46,14 +51,16 @@ export class CreateElementDto {
   })
   public readonly selectors: ElementSelectorsDto;
 
-  @ValidateNested()
+  // @ValidateNested()
+  @IsEmpty()
   @ApiProperty({
     example: new ElementPatternDataDto(new Types.ObjectId('61c0ba48ee16536eca6eaa29'), {
       url: 'https://en.wikipedia.org',
     }),
   })
-  @Type(() => ElementPatternDataDto)
-  public readonly pageObjectPattern: ElementPatternDataDto | null;
+  public readonly pageObjectPattern: PatternEntityWithId | null;
+  // public readonly pageObjectPattern: ElementPatternDataDto | null;
+
 
   @IsArray()
   @ValidateNested({ each: true })
@@ -65,10 +72,14 @@ export class CreateElementDto {
     ],
   })
   @Type(() => ElementPatternDataDto)
-  public readonly actionPatterns: ElementPatternDataDto[];
+  public readonly actionPatterns: PatternDataEntityWithId[];
 
   @IsMongoId()
   @ApiProperty({ example: new Types.ObjectId() })
   @IsOptional()
   public readonly parentElementId?: Types.ObjectId | null;
+
+  @IsDate()
+  @ApiProperty({ example: new Date(Date.now()) })
+  public readonly date: Date = new Date(Date.now());
 }

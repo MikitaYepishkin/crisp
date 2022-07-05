@@ -14,6 +14,14 @@ export class FrameworkEntity {
   @Prop({ type: String, required: true })
   @IsOptional()
   public description?: string;
+
+  @ApiProperty()
+  @Prop({
+    type: Types.Date,
+    required: false,
+    description: 'Project Date Mongo Id',
+  })
+  public date: Date = new Date(Date.now());
 }
 
 export interface FrameworkEntityWithId extends FrameworkEntity {

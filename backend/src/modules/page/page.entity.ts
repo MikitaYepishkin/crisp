@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { IsOptional } from 'class-validator';
-import { ProjectEntity } from '../project/project.entity';
+import { ProjectEntity, ProjectEntityWithId } from '../project/project.entity';
 
 @Schema()
 export class PageEntity {
@@ -17,11 +17,19 @@ export class PageEntity {
     description: 'Project Mongo Id',
   })
   @Prop({ type: Types.ObjectId, ref: ProjectEntity.name })
-  public projectId: ProjectEntity;
+  public projectId: ProjectEntityWithId;
 
   @ApiProperty({ maxLength: 50 })
   @Prop({ type: String, required: true })
   public name: string;
+
+  @ApiProperty()
+  @Prop({
+    type: Types.Date,
+    required: false,
+    description: 'Project Date Mongo Id',
+  })
+  public date: Date = new Date(Date.now());
 }
 
 export interface PageEntityWithId extends PageEntity {

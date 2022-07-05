@@ -1,3 +1,6 @@
+import { UserEntityWithId } from "../user/user.entity";
+import { initProjectData } from "./services/auth.service";
+
 interface JwtOptions {
   readonly expiresIn: string;
 }
@@ -9,6 +12,8 @@ export interface AuthPayload {
 export interface LoginResponse extends JwtOptions {
   readonly accessToken: string;
   readonly refreshToken: string;
+  readonly user: UserEntityWithId;
+  readonly projectInitData: initProjectData;
 }
 
 export interface RefreshAccessTokenResponse {

@@ -12,6 +12,7 @@ import { PageModule } from './modules/page';
 import { ElementModule } from './modules/element';
 import { SelectorModule } from './modules/selector';
 import { ResourceModule } from './modules/resource';
+import { RoleModule } from './modules/role';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ResourceModule } from './modules/resource';
     ElementModule,
     SelectorModule,
     ResourceModule,
+    RoleModule,
   ],
 })
 export class AppModule {}

@@ -11,14 +11,14 @@ export class CreateSelectorDto {
   @MaxLength(50, {
     message: setValidationMessage('ElementCss should be less than'),
   })
-  @ApiProperty({ example: '#searchInput' })
+  @ApiProperty({ example: '.searchInput' })
   @IsOptional()
   public readonly elementCss?: string;
 
-  @IsMongoId()
-  @ApiProperty({ example: new Types.ObjectId() })
+  @IsString()
+  @ApiProperty({ example: 'inputElement' })
   @IsOptional()
-  public readonly elementId?: Types.ObjectId;
+  public readonly elementId?: string;
 
   @IsString()
   @MinLength(2, {

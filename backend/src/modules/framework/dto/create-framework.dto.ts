@@ -1,4 +1,4 @@
-import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsDate, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { setValidationMessage } from 'src/common/helpers';
 
@@ -26,4 +26,8 @@ export class CreateFrameworkDto {
   })
   @IsOptional()
   public readonly description?: string;
+
+  @IsDate()
+  @ApiProperty({ example: new Date(Date.now()) })
+  public readonly date: Date = new Date(Date.now());
 }
