@@ -1,39 +1,41 @@
-# VSCode project files
-crisp.code-workspace
-.vscode/settings.json
-.vscode/launch.json
-.vscode/tasks.json
-.vscode/extensions.json
+# compiled output
+/dist
+/public
+/static
+/node_modules
 
-# IntelliJ project files
-*.iml
-*.iws
-*.ipr
-.idea/
-
-# Eclipse project file
-.settings/
-.classpath
-.project
-
-# NetBeans specific
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-nbactions.xml
-nb-configuration.xml
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
 # OS
 .DS_Store
-.idea
-*.iml
 
-node_modules
-npm-debug.log
+# Tests
+/coverage
+/.nyc_output
 
-dist/
-packages/
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 
-package-lock.json
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Environment
+bpn.env
+
+.eslintcache
