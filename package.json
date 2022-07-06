@@ -20,7 +20,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build && npm run remove-dts",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "NODE_ENV=production node dist/main",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:exm": "cross-env NODE_ENV=example nest start --watch",
     "start:debug": "nest start --debug --watch",
