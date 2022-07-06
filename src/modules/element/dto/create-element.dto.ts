@@ -47,7 +47,11 @@ export class CreateElementDto {
   @ValidateNested()
   @Type(() => ElementSelectorsDto)
   @ApiProperty({
-    example: new ElementSelectorsDto(new Types.ObjectId(), '#searchInput', '//*[@id=searchInput]'),
+    example: new ElementSelectorsDto(
+      new Types.ObjectId().toString(),
+      '#searchInput',
+      '//*[@id=searchInput]',
+    ),
   })
   public readonly selectors: ElementSelectorsDto;
 
@@ -60,7 +64,6 @@ export class CreateElementDto {
   })
   public readonly pageObjectPattern: PatternEntityWithId | null;
   // public readonly pageObjectPattern: ElementPatternDataDto | null;
-
 
   @IsArray()
   @ValidateNested({ each: true })

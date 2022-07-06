@@ -12,9 +12,11 @@ export const RoleGuard = (role: RoleTypeEnum): Type<CanActivate> => {
       const user = request.user;
       const userRole = await this.roleService.getRoleByName(role);
 
-      return user?.roles.map((role: any) => {
-        return role && role._id ? role._id.toString(): role.toString();
-      }).includes(String(userRole._id));
+      return user?.roles
+        .map((role: any) => {
+          return role && role._id ? role._id.toString() : role.toString();
+        })
+        .includes(String(userRole._id));
     }
   }
 

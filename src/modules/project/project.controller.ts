@@ -67,7 +67,10 @@ export class ProjectController {
     @Param('id') id: string,
     @Body(new ValidationPipe()) updateProjectDto: UpdateProjectDto,
   ): Promise<ProjectEntity> {
-    return this.projectService.updateProjectById(new Types.ObjectId(id), {...updateProjectDto, date: new Date(Date.now()) });
+    return this.projectService.updateProjectById(new Types.ObjectId(id), {
+      ...updateProjectDto,
+      date: new Date(Date.now()),
+    });
   }
 
   @Delete(':id')
@@ -95,12 +98,10 @@ export class ProjectController {
     description: 'Project was successfully created.',
   })
   @ApiBody({ type: CreateProjectDto })
-  public async createProject(
-    @Body() createProjectDto: CreateProjectDto,
-  ): Promise<ProjectEntity> {
+  public async createProject(@Body() createProjectDto: CreateProjectDto): Promise<ProjectEntity> {
     return this.projectService.createProject({
       ...createProjectDto,
-      date: new Date(Date.now())
+      date: new Date(Date.now()),
     });
   }
 }

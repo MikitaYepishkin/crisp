@@ -30,7 +30,7 @@ export class ProjectEntity {
 
   @ApiProperty()
   @Prop({
-    type: Types.Date,
+    type: Date,
     required: false,
     description: 'Project Date Mongo Id',
   })

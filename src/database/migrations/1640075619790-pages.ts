@@ -11,7 +11,11 @@ const page = {
 
 module.exports.up = async function () {
   const project: ProjectEntityWithId = await projectMongoService.getProjectByName('Demo');
-  await pageMongoService.createPage({ ...page, projectId: project._id, date: new Date(Date.now()) });
+  await pageMongoService.createPage({
+    ...page,
+    projectId: project._id,
+    date: new Date(Date.now()),
+  });
 };
 
 module.exports.down = async function () {

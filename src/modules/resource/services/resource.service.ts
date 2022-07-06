@@ -21,9 +21,10 @@ export class ResourceService {
   public bulkInsertResources(
     createResourceDto: CreateResourceDto[],
   ): Promise<ResourceEntityWithId[]> {
-    return this.resourceRepository.insertMany(createResourceDto).catch((err) => {
+    const insertedData: any = this.resourceRepository.insertMany(createResourceDto).catch((err) => {
       throw err;
     });
+    return insertedData;
   }
 
   public bulkRemoveResources(field: string, values: string[]) {

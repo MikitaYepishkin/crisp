@@ -1,5 +1,5 @@
-import { UserEntityWithId } from "../user/user.entity";
-import { initProjectData } from "./services/auth.service";
+import { UserEntityWithId } from '../user/user.entity';
+import { initProjectData } from './services/auth.service';
 
 interface JwtOptions {
   readonly expiresIn: string;

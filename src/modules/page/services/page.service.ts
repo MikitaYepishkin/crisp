@@ -15,19 +15,20 @@ export class PageService {
     return new this.pageRepository(createPageDto).save();
   }
 
-  public async  clone(page: PageEntityWithId) {
+  public async clone(page: PageEntityWithId) {
     return this.createPage({
       description: page.description,
       name: page.name,
       projectId: new Types.ObjectId(page.projectId._id),
-      date: page.date
+      date: page.date,
     });
   }
 
   public bulkInsertPages(createPageDto: CreatePageDto[]): Promise<PageEntityWithId[]> {
-    return this.pageRepository.insertMany(createPageDto).catch((err) => {
+    const insertedData: any = this.pageRepository.insertMany(createPageDto).catch((err) => {
       throw err;
     });
+    return insertedData;
   }
 
   public bulkRemovePages(field: string, values: string[]) {
@@ -38,25 +39,25 @@ export class PageService {
     return this.pageRepository.find(options);
   }
 
-  public async mapEntityToDto(pageEntity: PageEntityWithId) : Promise<PageDto> {
+  public async mapEntityToDto(pageEntity: PageEntityWithId): Promise<PageDto> {
     return {
       _id: pageEntity?._id?.toString() || '',
       date: pageEntity.date,
       name: pageEntity.name || '',
       project: pageEntity.projectId?._id?.toString() || '',
-      description: pageEntity.description || ''
-    }
-  };
+      description: pageEntity.description || '',
+    };
+  }
 
-  public async mapEntitysToDtos(pageEntitys: PageEntityWithId[]) : Promise<PageDto[]> {
+  public async mapEntitysToDtos(pageEntitys: PageEntityWithId[]): Promise<PageDto[]> {
     const result = [];
 
-    for(let i = 0; i < pageEntitys.length; ++i) {
+    for (let i = 0; i < pageEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(pageEntitys[i]));
     }
 
     return result;
-  };
+  }
 
   public removePage(field: string, value: string) {
     return this.pageRepository
@@ -70,8 +71,8 @@ export class PageService {
     payload: UpdatePageDto,
   ): Promise<PageEntityWithId> {
     let updatedPage = payload;
-    if(updatedPage.projectId) {
-      updatedPage = {...updatedPage,projectId: new Types.ObjectId(updatedPage.projectId._id)};
+    if (updatedPage.projectId) {
+      updatedPage = { ...updatedPage, projectId: new Types.ObjectId(updatedPage.projectId._id) };
     }
     return this.pageRepository.findByIdAndUpdate(id, updatedPage, { new: true }).exec();
   }

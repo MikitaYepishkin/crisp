@@ -19,9 +19,10 @@ export class RoleService {
   }
 
   public bulkInsertRoles(createResourceDto: CreateRoleDto[]): Promise<RoleEntityWithId[]> {
-    return this.roleRepository.insertMany(createResourceDto).catch((err) => {
+    const insertedData: any = this.roleRepository.insertMany(createResourceDto).catch((err) => {
       throw err;
     });
+    return insertedData;
   }
 
   public bulkRemoveRoles(field: string, values: string[]) {
@@ -46,9 +47,6 @@ export class RoleService {
       },
     };
 
-    return this.roleRepository
-      .findOne({ _id: id })
-      .populate(populate)
-      .exec();
+    return this.roleRepository.findOne({ _id: id }).populate(populate).exec();
   }
 }

@@ -17,11 +17,11 @@ export class SelectorService {
     return new this.selectorRepository(createSelectorDto).save();
   }
 
-  public async  clone(selector: SelectorEntityWithId) {
+  public async clone(selector: SelectorEntityWithId) {
     return this.createSelector({
       elementCss: selector.elementCss,
       elementId: selector.elementId,
-      elementXPath: selector.elementXPath
+      elementXPath: selector.elementXPath,
     });
   }
 
@@ -41,24 +41,24 @@ export class SelectorService {
     return this.selectorRepository.find(options);
   }
 
-  public async mapEntityToDto(selectorEntity: SelectorEntityWithId) : Promise<SelectorDto> {
+  public async mapEntityToDto(selectorEntity: SelectorEntityWithId): Promise<SelectorDto> {
     return {
       _id: selectorEntity._id.toString() || '',
       elementId: selectorEntity.elementId || '',
       elementCss: selectorEntity.elementCss || '',
-      elementXPath: selectorEntity.elementXPath || ''
-    }
-  };
+      elementXPath: selectorEntity.elementXPath || '',
+    };
+  }
 
-  public async mapEntitysToDtos(selectorEntitys: SelectorEntityWithId[]) : Promise<SelectorDto[]> {
+  public async mapEntitysToDtos(selectorEntitys: SelectorEntityWithId[]): Promise<SelectorDto[]> {
     const result = [];
 
-    for(let i = 0; i < selectorEntitys.length; ++i) {
+    for (let i = 0; i < selectorEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(selectorEntitys[i]));
     }
 
     return result;
-  };
+  }
 
   public removeSelector(field: string, value: string) {
     return this.selectorRepository

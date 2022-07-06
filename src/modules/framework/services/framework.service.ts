@@ -31,11 +31,11 @@ export class FrameworkService {
     return this.frameworkRepository.remove({ [field]: { $in: values } });
   }
 
-  public async  clone(page: FrameworkEntityWithId) {
+  public async clone(page: FrameworkEntityWithId) {
     return this.createFramework({
       name: page.name,
       description: page.name,
-      date: new Date(Date.now())
+      date: new Date(Date.now()),
     });
   }
 
@@ -43,24 +43,26 @@ export class FrameworkService {
     return this.frameworkRepository.find(options);
   }
 
-  public async mapEntityToDto(frameworkEntity: FrameworkEntityWithId) : Promise<FrameworkDto> {
+  public async mapEntityToDto(frameworkEntity: FrameworkEntityWithId): Promise<FrameworkDto> {
     return {
       _id: frameworkEntity._id.toString() || '',
       date: new Date(Date.now()),
       name: frameworkEntity.name || '',
-      description: frameworkEntity.description || ''
-    }
-  };
+      description: frameworkEntity.description || '',
+    };
+  }
 
-  public async mapEntitysToDtos(frameworkEntitys: FrameworkEntityWithId[]) : Promise<FrameworkDto[]> {
+  public async mapEntitysToDtos(
+    frameworkEntitys: FrameworkEntityWithId[],
+  ): Promise<FrameworkDto[]> {
     const result = [];
 
-    for(let i = 0; i < frameworkEntitys.length; ++i) {
+    for (let i = 0; i < frameworkEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(frameworkEntitys[i]));
     }
 
     return result;
-  };
+  }
 
   public removeFramework(field: string, value: string) {
     return this.frameworkRepository

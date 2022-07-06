@@ -1181,7 +1181,7 @@ module.exports.up = async function () {
     patterns.map((pattern) => ({
       ...pattern,
       frameworkId: framework._id,
-      date: new Date(Date.now())
+      date: new Date(Date.now()),
     })),
   );
 };

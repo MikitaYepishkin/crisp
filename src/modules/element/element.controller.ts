@@ -64,7 +64,10 @@ export class ElementController {
     @Param('id') id: string,
     @Body(new ValidationPipe()) updateElementDto: UpdateElementDto,
   ): Promise<ElementEntity> {
-    return this.elementService.updateElementById(new Types.ObjectId(id), {...updateElementDto, date: new Date(Date.now()) });
+    return this.elementService.updateElementById(new Types.ObjectId(id), {
+      ...updateElementDto,
+      date: new Date(Date.now()),
+    });
   }
 
   @Delete(':id')

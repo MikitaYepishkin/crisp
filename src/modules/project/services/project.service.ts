@@ -15,19 +15,21 @@ export class ProjectService {
   ) {}
 
   public async createProject(createProjectDto: CreateProjectDto): Promise<ProjectEntityWithId> {
-    return new this.projectRepository({...createProjectDto, frameworkId: new Types.ObjectId(createProjectDto.frameworkId) }).save();
+    return new this.projectRepository({
+      ...createProjectDto,
+      frameworkId: new Types.ObjectId(createProjectDto.frameworkId),
+    }).save();
   }
 
-  public async  clone(project: ProjectEntityWithId) {
+  public async clone(project: ProjectEntityWithId) {
     return this.createProject({
       name: project.name,
       description: project.description,
       isDefault: project.isDefault,
       frameworkId: project.frameworkId,
-      date: new Date(Date.now())
+      date: new Date(Date.now()),
     });
   }
-
 
   public bulkInsertProjects(createProjectDto: CreateProjectDto[]): Promise<ProjectEntityWithId[]> {
     return this.projectRepository.insertMany(createProjectDto).catch((err) => {
@@ -43,7 +45,7 @@ export class ProjectService {
     return this.projectRepository.find(options);
   }
 
-  public async mapEntityToDto(projectEntity: ProjectEntityWithId) : Promise<ProjectDto> {
+  public async mapEntityToDto(projectEntity: ProjectEntityWithId): Promise<ProjectDto> {
     console.log(projectEntity);
     return {
       _id: projectEntity._id.toString(),
@@ -51,19 +53,19 @@ export class ProjectService {
       name: projectEntity.name || '',
       framework: projectEntity.frameworkId.toString() || '',
       description: projectEntity.description || '',
-      isDefault: projectEntity.isDefault || false
-    }
-  };
+      isDefault: projectEntity.isDefault || false,
+    };
+  }
 
-  public async mapEntitysToDtos(projectEntitys: ProjectEntityWithId[]) : Promise<ProjectDto[]> {
+  public async mapEntitysToDtos(projectEntitys: ProjectEntityWithId[]): Promise<ProjectDto[]> {
     const result = [];
 
-    for(let i = 0; i < projectEntitys.length; ++i) {
+    for (let i = 0; i < projectEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(projectEntitys[i]));
     }
 
     return result;
-  };
+  }
 
   public removeProject(field: string, value: string) {
     return this.projectRepository
@@ -77,21 +79,27 @@ export class ProjectService {
     payload: UpdateProjectDto,
   ): Promise<ProjectEntityWithId> {
     console.log(`Update___`);
-    
+
     let updatedProject = payload;
     console.log(updatedProject);
-    if(updatedProject.frameworkId) {
-      updatedProject ={ ...updatedProject, frameworkId: new Types.ObjectId(updatedProject.frameworkId) };
+    if (updatedProject.frameworkId) {
+      updatedProject = {
+        ...updatedProject,
+        frameworkId: new Types.ObjectId(updatedProject.frameworkId),
+      };
     }
-    if(updatedProject.isDefault) {
+    if (updatedProject.isDefault) {
       const projects = await this.getProjects();
-      const selt = this;
-      for(let i=0; i<projects.length; ++i) {projects
+
+      for (let i = 0; i < projects.length; ++i) {
+        projects;
         const _id = projects[i]._id;
-        console.log(`__id: ${_id} __id: ${id} ===: ${_id === id}`)
-        if(_id !== id) {
-          await this.projectRepository.findByIdAndUpdate(_id, {isDefault: false}, { new: true }).exec();
-        };
+        console.log(`__id: ${_id} __id: ${id} ===: ${_id === id}`);
+        if (_id !== id) {
+          await this.projectRepository
+            .findByIdAndUpdate(_id, { isDefault: false }, { new: true })
+            .exec();
+        }
       }
     }
     return this.projectRepository.findByIdAndUpdate(id, updatedProject, { new: true }).exec();

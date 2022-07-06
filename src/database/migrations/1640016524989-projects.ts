@@ -17,7 +17,7 @@ module.exports.up = async function () {
   await projectMongoService.createProject({
     ...project,
     frameworkId: framework._id,
-    date: new Date(Date.now())
+    date: new Date(Date.now()),
   });
 };
 

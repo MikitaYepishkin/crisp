@@ -15,13 +15,13 @@ export class PatternService {
     return new this.patternRepository(createPatternDto).save();
   }
 
-  public async  clone(pattern: PatternEntityWithId) {
+  public async clone(pattern: PatternEntityWithId) {
     return this.createPattern({
       name: pattern.name,
       script: pattern.script,
       type: pattern.type,
       frameworkId: new Types.ObjectId(pattern.frameworkId._id),
-      date: pattern.date
+      date: pattern.date,
     });
   }
 
@@ -34,9 +34,10 @@ export class PatternService {
   }
 
   public bulkInsertPatterns(createPatternDto: CreatePatternDto[]): Promise<PatternEntityWithId[]> {
-    return this.patternRepository.insertMany(createPatternDto).catch((err) => {
+    const insertedData: any = this.patternRepository.insertMany(createPatternDto).catch((err) => {
       throw err;
     });
+    return insertedData;
   }
 
   public bulkRemovePatterns(field: string, values: string[]) {
@@ -47,26 +48,26 @@ export class PatternService {
     return this.patternRepository.find(options).limit(50);
   }
 
-  public async mapEntityToDto(patternEntity: PatternEntityWithId) : Promise<PatternDto> {
+  public async mapEntityToDto(patternEntity: PatternEntityWithId): Promise<PatternDto> {
     return {
       _id: patternEntity?._id?.toString() || '',
       date: patternEntity.date || new Date(Date.now()),
       type: patternEntity.type || '',
       framework: patternEntity.frameworkId?._id?.toString() || '',
       name: patternEntity.name || '',
-      script: patternEntity.script || ''
-    }
-  };
+      script: patternEntity.script || '',
+    };
+  }
 
-  public async mapEntitysToDtos(patternEntitys: PatternEntityWithId[]) : Promise<PatternDto[]> {
+  public async mapEntitysToDtos(patternEntitys: PatternEntityWithId[]): Promise<PatternDto[]> {
     const result = [];
 
-    for(let i = 0; i < patternEntitys.length; ++i) {
+    for (let i = 0; i < patternEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(patternEntitys[i]));
     }
 
     return result;
-  };
+  }
 
   public removePattern(field: string, value: string) {
     return this.patternRepository
@@ -80,8 +81,11 @@ export class PatternService {
     payload: UpdatePatternDto,
   ): Promise<PatternEntityWithId> {
     let updatedPattern = payload;
-    if(updatedPattern) {
-      updatedPattern = { ...updatedPattern,frameworkId: new Types.ObjectId(updatedPattern.frameworkId._id) };
+    if (updatedPattern) {
+      updatedPattern = {
+        ...updatedPattern,
+        frameworkId: new Types.ObjectId(updatedPattern.frameworkId._id),
+      };
     }
     return this.patternRepository.findByIdAndUpdate(id, updatedPattern, { new: true }).exec();
   }

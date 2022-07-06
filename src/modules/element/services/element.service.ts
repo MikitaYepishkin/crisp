@@ -41,16 +41,18 @@ export class ElementService {
     const pageObjectPatternId = await setObjectPatternData(createElementDto);
     const actionPatternIds = await setActionPatternData(createElementDto);
 
-    let { name, description, pageId, parentElementId } = createElementDto;
+    const { name, description, pageId, parentElementId } = createElementDto;
 
-    parentElementId = parentElementId ? new Types.ObjectId(parentElementId): parentElementId;
-    pageId = pageId ? new Types.ObjectId(pageId): pageId;
+    const _parentElementId = parentElementId
+      ? new Types.ObjectId(parentElementId)
+      : parentElementId;
+    const _pageId = pageId ? new Types.ObjectId(pageId) : pageId;
 
     return new this.elementRepository({
       name,
       description,
-      pageId,
-      parentElementId,
+      _pageId,
+      _parentElementId,
       actionPatternIds,
       pageObjectPatternId,
     }).save();
@@ -58,8 +60,8 @@ export class ElementService {
 
   public async asyncMapClone(datas: any, servive: any, transformFunc: any) {
     const list = [];
-    
-    for(let i = 0; i< datas.length; ++i){
+
+    for (let i = 0; i < datas.length; ++i) {
       const data = datas[i];
       list.push(await servive.clone(await transformFunc(data)));
     }
@@ -67,28 +69,35 @@ export class ElementService {
     return list;
   }
 
-  public async  clone(element: ElementEntityWithId) {
+  public async clone(element: ElementEntityWithId) {
     console.log('--------------- 6.6 ----------');
     console.log(element);
-    console.log(element.selectors );
+    console.log(element.selectors);
     let selector: any;
 
     const actionPatD = element.actionPatternIds || [];
 
-    const patternsDataEntities = await this.patternDataService.getPatterns({
-    _id: {$in: actionPatD} }) || [];
+    const patternsDataEntities =
+      (await this.patternDataService.getPatterns({
+        _id: { $in: actionPatD },
+      })) || [];
 
     console.log('--------------- 6.211 ----------');
-    const actionPatDs = await this.asyncMapClone(patternsDataEntities, this.patternDataService, async (data:any) => {
-      return data;
-    });
+    const actionPatDs = await this.asyncMapClone(
+      patternsDataEntities,
+      this.patternDataService,
+      async (data: any) => {
+        return data;
+      },
+    );
 
     try {
       console.log('--------------- 6.7 ----------');
-      selector = element.selectors ? await this.selectorService.getSelectorById(element.selectors) :
-      await this.selectorService.getSelectorBy({
-        elementId: element._id
-      });
+      selector = element.selectors
+        ? await this.selectorService.getSelectorById(element.selectors)
+        : await this.selectorService.getSelectorBy({
+            elementId: element._id,
+          });
 
       console.log('--------------- 6.7.2 ----------');
       return this.createElement({
@@ -98,24 +107,24 @@ export class ElementService {
         selectors: {
           elementId: selector.elementId?._id || null,
           elementCss: selector.elementCss,
-          elementXPath: selector.elementXPath
+          elementXPath: selector.elementXPath,
         },
-        pageObjectPattern: element.pageObjectPatternId ? element.pageObjectPatternId: null,
+        pageObjectPattern: element.pageObjectPatternId ? element.pageObjectPatternId : null,
         actionPatterns: actionPatDs,
         parentElementId: element.parentElementId._id,
-        date: element.date
+        date: element.date,
       });
-    } catch(e) {
+    } catch (e) {
       console.log('--------------- 6.8 ----------');
       return this.createElement({
         name: element.name,
         description: element.description,
         pageId: element.pageId._id,
         selectors: null,
-        pageObjectPattern: element.pageObjectPatternId ? element.pageObjectPatternId: null,
+        pageObjectPattern: element.pageObjectPatternId ? element.pageObjectPatternId : null,
         actionPatterns: actionPatDs,
         parentElementId: element.parentElementId._id,
-        date: element.date
+        date: element.date,
       });
     }
   }
@@ -123,21 +132,26 @@ export class ElementService {
   public async bulkInsertElements(
     createElementDto: CreateElementDto[],
   ): Promise<ElementEntityWithId[]> {
-    return this.elementRepository.insertMany(createElementDto).catch((err) => {
+    const insertedData: any = this.elementRepository.insertMany(createElementDto).catch((err) => {
       throw err;
     });
+    return insertedData;
   }
 
   public bulkRemoveElements(field: string, values: string[]) {
     return this.elementRepository.remove({ [field]: { $in: values } });
   }
 
-  public async getElements(options = {}, isPupulate=false): Promise<ElementEntityWithId[]> {
-    const elements = isPupulate ? await this.elementRepository.find(options).populate({
-      path: 'actionPatternIds',
-      model: PatternDataEntity.name,
-    }).exec()
-    : await this.elementRepository.find(options);
+  public async getElements(options = {}, isPupulate = false): Promise<ElementEntityWithId[]> {
+    const elements = isPupulate
+      ? await this.elementRepository
+          .find(options)
+          .populate({
+            path: 'actionPatternIds',
+            model: PatternDataEntity.name,
+          })
+          .exec()
+      : await this.elementRepository.find(options);
 
     console.log(`------------------- Get Elements Serv: ------------------------------`);
     console.log(`------------------- isPupulate: ${isPupulate} -----------------------`);
@@ -148,7 +162,7 @@ export class ElementService {
     return elements;
   }
 
-  public async mapEntityToDto(elementEntity: ElementEntityWithId) : Promise<ElementDto> {
+  public async mapEntityToDto(elementEntity: ElementEntityWithId): Promise<ElementDto> {
     console.log(`------- mapEntityToDto Elements ----------`);
     console.log(elementEntity);
     const result = {
@@ -160,23 +174,23 @@ export class ElementService {
       selectors: elementEntity.selectors || {},
       pageObjectPattern: elementEntity.pageObjectPatternId,
       actionPatterns: elementEntity.actionPatternIds || [],
-      parentElement: elementEntity?.parentElementId?._id?.toString() || ''
-    }
+      parentElement: elementEntity?.parentElementId?._id?.toString() || '',
+    };
 
     console.log(`------- mapEntityToDto Elements Result ----------`);
     console.log(result);
     return result;
-  };
+  }
 
-  public async mapEntitysToDtos(elementEntitys: ElementEntityWithId[]) : Promise<ElementDto[]> {
+  public async mapEntitysToDtos(elementEntitys: ElementEntityWithId[]): Promise<ElementDto[]> {
     const result = [];
 
-    for(let i = 0; i < elementEntitys.length; ++i) {
+    for (let i = 0; i < elementEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(elementEntitys[i]));
     }
 
     return result;
-  };
+  }
 
   public removeElement(field: string, value: string) {
     return this.elementRepository
@@ -190,10 +204,13 @@ export class ElementService {
     payload: UpdateElementDto,
   ): Promise<ElementEntityWithId> {
     let updatedPayload = payload;
-    if(updatedPayload.parentElementId) {
-      updatedPayload = { ...updatedPayload, parentElementId: new Types.ObjectId(updatedPayload.parentElementId) };
+    if (updatedPayload.parentElementId) {
+      updatedPayload = {
+        ...updatedPayload,
+        parentElementId: new Types.ObjectId(updatedPayload.parentElementId),
+      };
     }
-    if(updatedPayload.pageId) {
+    if (updatedPayload.pageId) {
       updatedPayload = { ...updatedPayload, pageId: new Types.ObjectId(updatedPayload.pageId) };
     }
     return this.elementRepository.findByIdAndUpdate(id, payload, { new: true }).exec();

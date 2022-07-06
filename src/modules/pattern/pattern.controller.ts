@@ -67,7 +67,10 @@ export class PatternController {
     @Param('id') id: string,
     @Body(new ValidationPipe()) updatePatternDto: UpdatePatternDto,
   ): Promise<PatternEntity> {
-    return this.patternService.updatePatternById(new Types.ObjectId(id), { ...updatePatternDto, date: new Date(Date.now()) });
+    return this.patternService.updatePatternById(new Types.ObjectId(id), {
+      ...updatePatternDto,
+      date: new Date(Date.now()),
+    });
   }
 
   @Delete(':id')

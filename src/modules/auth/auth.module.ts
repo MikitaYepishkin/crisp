@@ -25,7 +25,7 @@ import { ProjectModule } from '../project/project.module';
     ElementModule,
     PageModule,
     PatternModule,
-    ProjectModule
+    ProjectModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, BcryptHashService],

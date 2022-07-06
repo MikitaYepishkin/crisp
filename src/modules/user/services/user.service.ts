@@ -9,8 +9,7 @@ import { RoleEntity } from '../../../modules/role/role.entity';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectModel(UserEntity.name) private readonly userRepository: Model<UserEntity>) {}
+  constructor(@InjectModel(UserEntity.name) private readonly userRepository: Model<UserEntity>) {}
 
   public async getUserByRefreshToken(
     currentHashedRefreshToken: string,
@@ -19,18 +18,21 @@ export class UserService {
   }
 
   public async getUserEntityByEmail(email: string): Promise<UserEntityWithId | null> {
-    return this.userRepository.findOne({ email }).populate({
-      path: 'roles',
-      model: RoleEntity.name,
-    }).exec();
+    return this.userRepository
+      .findOne({ email })
+      .populate({
+        path: 'roles',
+        model: RoleEntity.name,
+      })
+      .exec();
   }
 
   public async createUser(createUserDto: CreateUserDto): Promise<UserEntityWithId> {
     const createUser: CreateUserDto = {
       ...createUserDto,
       roles: createUserDto.roles.map((roleId: any) => {
-        return Types.ObjectId();
-      })
+        return new Types.ObjectId();
+      }),
     };
     return new this.userRepository(createUser).save();
   }
@@ -81,7 +83,10 @@ export class UserService {
     refreshToken: string,
   ): Promise<UserEntityWithId> {
     console.log('--------------- 999 ----------');
-    await this.updateUserById(id, { currentHashedRefreshToken: refreshToken, date: new Date(Date.now()) });
+    await this.updateUserById(id, {
+      currentHashedRefreshToken: refreshToken,
+      date: new Date(Date.now()),
+    });
     return this.getUserById(id);
   }
 
@@ -92,8 +97,9 @@ export class UserService {
   }
 
   public bulkInsertUsers(createUserDto: CreateUserDto[]): Promise<UserEntityWithId[]> {
-    return this.userRepository.insertMany(createUserDto).catch((err) => {
+    const insertedData: any = this.userRepository.insertMany(createUserDto).catch((err) => {
       throw err;
     });
+    return insertedData;
   }
 }

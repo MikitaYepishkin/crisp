@@ -31,7 +31,7 @@ module.exports.up = async function () {
     roles: [adminRole._id],
     projects: [],
     grants: [],
-    date: new Date(Date.now())
+    date: new Date(Date.now()),
   });
 };
 

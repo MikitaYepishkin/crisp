@@ -25,13 +25,16 @@ export class PatternDataService {
         createError(ErrorTypeEnum.PATTERN_NOT_FOUND, String(createPatternDataDto.id)),
       );
     }
-    return new this.patternDataRepository({ ...createPatternDataDto, id: new Types.ObjectId(createPatternDataDto.id)  }).save();
+    return new this.patternDataRepository({
+      ...createPatternDataDto,
+      id: new Types.ObjectId(createPatternDataDto.id),
+    }).save();
   }
 
   public async asyncMapClone(datas: any, servive: any, transformFunc: any) {
     const list = [];
-    
-    for(let i = 0; i< datas.length; ++i){
+
+    for (let i = 0; i < datas.length; ++i) {
       const data = datas[i];
       list.push(await servive.clone(await transformFunc(data)));
     }
@@ -39,7 +42,7 @@ export class PatternDataService {
     return list;
   }
 
-  public async  clone(patternData: PatternDataEntityWithId) {
+  public async clone(patternData: PatternDataEntityWithId) {
     //--------------------------------
 
     const patternsEntity = await this.patternService.getPatternById(patternData.id);
@@ -52,7 +55,7 @@ export class PatternDataService {
     return this.createPatternData({
       id: pattern ? pattern._id : null,
       customVars: patternData.customVars,
-      date: new Date(Date.now())
+      date: new Date(Date.now()),
     });
   }
 
@@ -60,22 +63,24 @@ export class PatternDataService {
     return this.patternDataRepository.find(options);
   }
 
-  public async mapEntityToDto(patternDataEntity: PatternDataEntityWithId) : Promise<PatternDataDto> {
+  public async mapEntityToDto(patternDataEntity: PatternDataEntityWithId): Promise<PatternDataDto> {
     return {
       _id: patternDataEntity?._id?.toString() || '',
       id: patternDataEntity?.id?.toString() || '',
       customVars: patternDataEntity.customVars,
-      date: new Date(Date.now())
-    }
-  };
+      date: new Date(Date.now()),
+    };
+  }
 
-  public async mapEntitysToDtos(patternDataEntitys: PatternDataEntityWithId[]) : Promise<PatternDataDto[]> {
+  public async mapEntitysToDtos(
+    patternDataEntitys: PatternDataEntityWithId[],
+  ): Promise<PatternDataDto[]> {
     const result = [];
 
-    for(let i = 0; i < patternDataEntitys.length; ++i) {
+    for (let i = 0; i < patternDataEntitys.length; ++i) {
       result.push(await this.mapEntityToDto(patternDataEntitys[i]));
     }
 
     return result;
-  };
+  }
 }
