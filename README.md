@@ -50,6 +50,7 @@ Use `.env.example` as a reference.
 `docker-compose --env-file .env.<env-name e.g: production> up -d`
 
 `sudo docker-compose --env-file .env.development up -d`
+`sudo docker-compose --env-file .env.production up -d`
 
 ### 4. Start app
 

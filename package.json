@@ -36,10 +36,7 @@
     "migrate:build": "rm -rf dist/database/migrations && tsc src/database/migrations/*.ts --outDir dist --experimentalDecorators \"true\"",
     "migrate": "NODE_ENV=development node dist/database/migrate.js",
     "remove-dts": "find dist/database/migrations -name \"*.d.ts\" -delete",
-    "migrate-create": "./node_modules/migrate/bin/migrate-create --migrations-dir src/database/migrations/ -t ./src/database/migration.template.ts",
-  
-    "heroku-prebuild": "docker kill $(docker ps -q) && docker rm $(docker ps -a -q) && docker rmi $(docker images -q) && docker system prune -a && docker volume prune && docker-compose --env-file .env.production up -d",
-    "heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies."
+    "migrate-create": "./node_modules/migrate/bin/migrate-create --migrations-dir src/database/migrations/ -t ./src/database/migration.template.ts"
   },
   "dependencies": {
     "@compodoc/compodoc": "^1.1.18",
