@@ -18,7 +18,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - MONGODB_CONNECTION_URL=mongodb://crisp:crisp@mongo:27017/crisp?authSource=admin&ssl=false
+      - MONGODB_CONNECTION_URL=mongodb+srv://crisp:crisp@crisp.gtgujyk.mongodb.net/?retryWrites=true&w=majority
     image: nodejs
     container_name: nodejs
     restart: unless-stopped
@@ -35,6 +35,3 @@ volumes:
 networks:
   app-network:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 170.16.57.0/24
