@@ -50,15 +50,18 @@ async function bootstrap() {
       contentSecurityPolicy: false,
     });
 
+  const $post:any = process.env.PORT || configService.get('PORT') || 80;
+  const $host:any = configService.get('HOST') || '0.0.0.0';
+
   await app
     .useGlobalPipes(validationPipe)
     .useGlobalFilters(httpExceptionFilter)
     .useGlobalInterceptors(transformInterceptor)
-    .listen(configService.get('PORT'), configService.get('HOST'));
+    .listen($post, $host);
 
   if (configService.get('SWAGGER_MODULE')) {
     const config = new DocumentBuilder()
-      //.setDescription(configService.get('npm_package_description'))
+      // .setDescription(configService.get('npm_package_description'))
       .setVersion(configService.get('npm_package_version'))
       .setTitle(configService.get('npm_package_name'))
       .addBearerAuth()
