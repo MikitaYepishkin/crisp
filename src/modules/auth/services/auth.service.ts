@@ -159,7 +159,7 @@ export class AuthService {
       accessToken,
       refreshToken,
       expiresIn: `${expiresIn}h`,
-      user: user,
+      user: { ...user, roles: [role] },
       projectInitData: projectInitData,
     };
   }
