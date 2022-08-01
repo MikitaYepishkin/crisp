@@ -1,10 +1,14 @@
+import { BcryptHashService } from 'src/common/services';
 import { UserService } from '../../modules/user';
 import { UserModel } from '../../modules/user/user.entity';
 
 export class UserMongoService {
   private readonly userService: UserService;
   constructor() {
-    this.userService = new UserService(UserModel as any);
+    this.userService = new UserService(
+      UserModel as any,
+      new BcryptHashService()
+    );
   }
 
   public createUser(payload: any) {

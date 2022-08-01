@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtConfigService } from '../auth/jwt-config.service';
 import { ConfigService } from 'src/config';
 import { RoleModule } from '../role/role.module';
+import { BcryptHashService } from '../../common/services';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { RoleModule } from '../role/role.module';
     JwtModule.registerAsync({ useClass: JwtConfigService, inject: [ConfigService] }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
-  providers: [UserService],
+  providers: [UserService, BcryptHashService],
   controllers: [UserController],
   exports: [UserService],
 })
