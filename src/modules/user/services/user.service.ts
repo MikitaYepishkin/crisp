@@ -11,9 +11,9 @@ import { BcryptHashService } from '../../../common/services/bcrypt-hash.service'
 @Injectable()
 export class UserService {
   constructor(
-    private readonly bcryptHashService: BcryptHashService,
-      @InjectModel(UserEntity.name) private readonly userRepository: Model<UserEntity>
-    ) {}
+    @InjectModel(UserEntity.name) private readonly userRepository: Model<UserEntity>,
+    private readonly bcryptHashService: BcryptHashService
+  ) {}
 
   public async getUserByRefreshToken(
     currentHashedRefreshToken: string,
