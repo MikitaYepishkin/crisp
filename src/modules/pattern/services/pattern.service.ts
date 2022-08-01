@@ -45,7 +45,7 @@ export class PatternService {
   }
 
   public async getPatterns(options = {}): Promise<PatternEntityWithId[]> {
-    return this.patternRepository.find(options).limit(50);
+    return this.patternRepository.find(options);
   }
 
   public async mapEntityToDto(patternEntity: PatternEntityWithId): Promise<PatternDto> {

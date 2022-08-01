@@ -6,10 +6,14 @@ import { createError } from '../../../common/helpers/error-handling.helpers';
 import { ErrorTypeEnum } from '../../../common/enums';
 import { CreateUserDto, UpdateUserDto } from '../dto';
 import { RoleEntity } from '../../../modules/role/role.entity';
+import { BcryptHashService } from '../../../common/services/bcrypt-hash.service';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(UserEntity.name) private readonly userRepository: Model<UserEntity>) {}
+  constructor(
+    private readonly bcryptHashService: BcryptHashService,
+      @InjectModel(UserEntity.name) private readonly userRepository: Model<UserEntity>
+    ) {}
 
   public async getUserByRefreshToken(
     currentHashedRefreshToken: string,
@@ -30,6 +34,7 @@ export class UserService {
   public async createUser(createUserDto: CreateUserDto): Promise<UserEntityWithId> {
     const createUser: CreateUserDto = {
       ...createUserDto,
+      password: await this.bcryptHashService.hashPassword(createUserDto.password),
       roles: createUserDto.roles.map((roleId: any) => {
         return new Types.ObjectId();
       }),
