@@ -15,7 +15,7 @@ export class UserService {
   constructor(
     @InjectModel(UserEntity.name) private readonly userRepository: Model<UserEntity>,
     private readonly bcryptHashService: BcryptHashService,
-    private readonly mailerService: MailerService
+    private readonly mailerService?: MailerService,
   ) {}
 
   public async getUserByRefreshToken(
@@ -25,22 +25,21 @@ export class UserService {
   }
 
   public async sendMailForUser(email: string): Promise<void> {
-    const resp = await this.mailerService
-      .sendMail({
-        to: email, // list of receivers
-        from: 'crisp.mail.notification@gmail.com', // sender address
-        subject: 'Message from Crisp', // Subject line
-        text: 'This message was sent from Node js server.', // plaintext body
-        html: 'This <i>message</i> was sent from <strong>Node js</strong> server.', // HTML body content
-      });
+    const resp = await this.mailerService.sendMail({
+      to: email, // list of receivers
+      from: 'crisp.mail.notification@gmail.com', // sender address
+      subject: 'Message from Crisp', // Subject line
+      text: 'This message was sent from Node js server.', // plaintext body
+      html: 'This <i>message</i> was sent from <strong>Node js</strong> server.', // HTML body content
+    });
 
-      if(resp) {
-        console.log('---- send mail successful -----');
-      } else {
-        console.log('---- send mail error -----');
-      }
+    if (resp) {
+      console.log('---- send mail successful -----');
+    } else {
+      console.log('---- send mail error -----');
+    }
 
-      console.log('---- send mail ended -----');
+    console.log('---- send mail ended -----');
   }
 
   public async getUserEntityByEmail(email: string): Promise<UserEntityWithId | null> {
@@ -131,3 +130,4 @@ export class UserService {
     return insertedData;
   }
 }
+
