@@ -14,8 +14,7 @@ import { BcryptHashService } from '../../../common/services/bcrypt-hash.service'
 export class UserService {
   constructor(
     @InjectModel(UserEntity.name) private readonly userRepository: Model<UserEntity>,
-    private readonly bcryptHashService: BcryptHashService,
-    /* private readonly mailerService?: MailerService, */
+    private readonly bcryptHashService: BcryptHashService /* private readonly mailerService?: MailerService, */,
   ) {}
 
   public async getUserByRefreshToken(
@@ -114,7 +113,7 @@ export class UserService {
     console.log('--------------- 999 ----------');
     await this.updateUserById(id, {
       currentHashedRefreshToken: refreshToken,
-      date: new Date(Date.now()),
+      date: new Date(Date.now())
     });
     return this.getUserById(id);
   }

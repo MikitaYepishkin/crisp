@@ -1,4 +1,4 @@
-import { IsArray, IsDate, IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsArray, IsBoolean, IsDate, IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 import { setValidationMessage } from 'src/common/helpers';
@@ -30,4 +30,8 @@ export class CreateUserDto {
   @IsDate()
   @ApiProperty({ example: new Date(Date.now()) })
   public readonly date: Date = new Date(Date.now());
+
+  @IsBoolean()
+  @ApiProperty({ example: false })
+  public readonly isFirstExit: boolean;
 }

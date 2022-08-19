@@ -1,5 +1,6 @@
 import {
   IsArray,
+  IsBoolean,
   IsDate,
   IsEmail,
   IsOptional,
@@ -42,4 +43,9 @@ export class UpdateUserDto {
   @IsDate()
   @ApiProperty({ example: new Date(Date.now()) })
   public readonly date: Date = new Date(Date.now());
+
+  @IsBoolean()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  public readonly isFirstExit?: boolean;
 }
