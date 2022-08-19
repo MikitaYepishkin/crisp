@@ -14,10 +14,16 @@ import { SelectorModule } from './modules/selector';
 import { ResourceModule } from './modules/resource';
 import { RoleModule } from './modules/role';
 
-import { MailerModule } from '@nestjs-modules/mailer';
+import { MailerModule, MailerService } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
+    MailerModule.forRoot({
+      transport: 'smtps://crisp.mail.notification@gmail.com:crisp_2022@smtp.domain.com',
+      defaults: {
+        from: 'crisp.mail.notification@gmail.com',
+      },
+    }),
     DatabaseModule,
     ConfigModule,
     AuthModule,
@@ -30,12 +36,12 @@ import { MailerModule } from '@nestjs-modules/mailer';
     SelectorModule,
     ResourceModule,
     RoleModule,
-    MailerModule.forRoot({
-      transport: 'smtps://crisp.mail.notification@gmail.com:crisp_2022@smtp.domain.com',
-      defaults: {
-        from: 'crisp.mail.notification@gmail.com',
-      }
-    }),
   ],
+  /*
+  providers: [
+    MailerService
+  ],
+  exports: [MailerService]
+  */
 })
 export class AppModule {}
