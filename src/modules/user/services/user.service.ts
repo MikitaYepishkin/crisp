@@ -8,17 +8,39 @@ import { CreateUserDto, UpdateUserDto } from '../dto';
 import { RoleEntity } from '../../../modules/role/role.entity';
 import { BcryptHashService } from '../../../common/services/bcrypt-hash.service';
 
+import { MailerService } from '@nestjs-modules/mailer';
+
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(UserEntity.name) private readonly userRepository: Model<UserEntity>,
     private readonly bcryptHashService: BcryptHashService,
+    private readonly mailerService: MailerService
   ) {}
 
   public async getUserByRefreshToken(
     currentHashedRefreshToken: string,
   ): Promise<UserEntity | null> {
     return this.userRepository.findOne({ currentHashedRefreshToken }).exec();
+  }
+
+  public async sendMailForUser(email: string): Promise<void> {
+    const resp = await this.mailerService
+      .sendMail({
+        to: email, // list of receivers
+        from: 'crisp.mail.notification@gmail.com', // sender address
+        subject: 'Message from Crisp', // Subject line
+        text: 'This message was sent from Node js server.', // plaintext body
+        html: 'This <i>message</i> was sent from <strong>Node js</strong> server.', // HTML body content
+      });
+
+      if(resp) {
+        console.log('---- send mail successful -----');
+      } else {
+        console.log('---- send mail error -----');
+      }
+
+      console.log('---- send mail ended -----');
   }
 
   public async getUserEntityByEmail(email: string): Promise<UserEntityWithId | null> {
@@ -39,6 +61,7 @@ export class UserService {
         return new Types.ObjectId();
       }),
     };
+    await this.sendMailForUser(createUser.email);
     return new this.userRepository(createUser).save();
   }
 

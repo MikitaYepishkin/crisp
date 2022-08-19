@@ -14,6 +14,8 @@ import { SelectorModule } from './modules/selector';
 import { ResourceModule } from './modules/resource';
 import { RoleModule } from './modules/role';
 
+import { MailerModule } from '@nestjs-modules/mailer';
+
 @Module({
   imports: [
     DatabaseModule,
@@ -28,6 +30,12 @@ import { RoleModule } from './modules/role';
     SelectorModule,
     ResourceModule,
     RoleModule,
+    MailerModule.forRoot({
+      transport: 'smtps://crisp.mail.notification@gmail.com:crisp_2022@smtp.domain.com',
+      defaults: {
+        from: 'crisp.mail.notification@gmail.com',
+      }
+    }),
   ],
 })
 export class AppModule {}
