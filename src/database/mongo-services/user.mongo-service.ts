@@ -8,8 +8,7 @@ export class UserMongoService {
   constructor() {
     this.userService = new UserService(
       UserModel as any,
-      new BcryptHashService(),
-      new MailerService()
+      new BcryptHashService()
     );
   }
 
