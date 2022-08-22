@@ -18,11 +18,33 @@ import { AuthGuard } from '@nestjs/passport';
 import { Types } from 'mongoose';
 import { RoleGuard } from 'src/common/guards';
 import { RoleTypeEnum } from 'src/common/enums';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @ApiTags('users')
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly mailerService: MailerService
+  ) {}
+
+  private async sendMailForUser(email: string): Promise<void> {
+    const resp = await this.mailerService.sendMail({
+      to: email, 
+      from: 'crisp.mail.notification@gmail.com',
+      subject: 'Message from Crisp', 
+      text: 'This message was sent from Node js server.', 
+      html: 'This <i>message</i> was sent from <strong>Node js</strong> server.', 
+    });
+  
+    if (resp) {
+      console.log('---- send mail successful -----');
+    } else {
+      console.log('---- send mail error -----');
+    }
+  
+    console.log('---- send mail ended -----');
+  }
 
   @Get('/')
   @ApiBearerAuth()
@@ -98,6 +120,10 @@ export class UserController {
   public async createUser(
     @Body(new ValidationPipe()) createUserDto: CreateUserDto,
   ): Promise<UserEntity> {
-    return this.userService.createUser(createUserDto);
+    const user = this.userService.createUser(createUserDto);
+
+    await this.sendMailForUser(createUserDto.email);
+
+    return user;
   }
 }

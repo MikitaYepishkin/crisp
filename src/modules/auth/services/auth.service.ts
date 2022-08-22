@@ -69,6 +69,7 @@ export class AuthService {
       password: hashedPassword,
       date: new Date(Date.now()),
       roles: [userRole._id],
+      isFirstExit: false
     });
     const accessToken: string = await this.getAndGenerateJwtAccessToken(user._id);
     const refreshToken: string = await this.getAndGenerateJwtRefreshToken(user.email);
@@ -151,9 +152,9 @@ export class AuthService {
     );
     console.log('--------------- VVVV ----------');
     const gerMainRole = (roles: any = []) =>
-      roles.find((role: any) => role.name === 'ADMIN') || (roles.length && roles[0]);
+      roles.find((role: any) => role.name !== 'USER') || (roles.length && roles[0]);
     const role = gerMainRole(user.roles);
-    const projectInitData = await this.generateProjectData(user.projects, role.name === 'ADMIN');
+    const projectInitData = await this.generateProjectData(user.projects, role.name !== 'USER');
     console.log('--------------- ZZZZ ----------');
     return {
       accessToken,
