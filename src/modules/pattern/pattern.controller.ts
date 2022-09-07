@@ -67,10 +67,11 @@ export class PatternController {
     @Param('id') id: string,
     @Body(new ValidationPipe()) updatePatternDto: UpdatePatternDto,
   ): Promise<PatternEntity> {
-    return this.patternService.updatePatternById(new Types.ObjectId(id), {
-      ...updatePatternDto,
-      date: new Date(Date.now()),
-    });
+    const data: any = {...updatePatternDto, date: new Date(Date.now())};
+    if(data.frameworkId) {
+      data.frameworkId = new Types.ObjectId(data.frameworkId);
+    }
+    return this.patternService.updatePatternById(new Types.ObjectId(id), data);
   }
 
   @Delete(':id')
@@ -101,7 +102,11 @@ export class PatternController {
   public async createPattern(
     @Body(new ValidationPipe()) createPatternDto: CreatePatternDto,
   ): Promise<PatternEntity> {
+    const data: any = {...createPatternDto, date: new Date(Date.now())};
+    if(data.frameworkId) {
+      data.frameworkId = new Types.ObjectId(data.frameworkId);
+    }
     console.log('-- Pattern ----');
-    return this.patternService.createPattern({ ...createPatternDto, date: new Date(Date.now()) });
+    return this.patternService.createPattern(data);
   }
 }

@@ -15,7 +15,20 @@ import { MailerModule } from '@nestjs-modules/mailer';
   imports: [
     RoleModule,
     MailerModule.forRoot({
-      transport: 'smtps://crisp.mail.notification@gmail.com:crisp_2022@smtp.domain.com',
+      // transport: 'smtps://crisp.mail.notification@gmail.com:crisp_2022@smtp.domain.com',
+      transport: {
+        // host: 'localhost',
+        // port: 1025,
+        service: "Gmail",
+        // host: 'localhost',
+        // port: 1025,
+        ignoreTLS:  true,
+        secure: false,
+        auth: {
+          user: "crisp.mail.notification@gmail.com",
+          pass: "jjhoehfeunlhygky",
+        },
+      },
       defaults: {
         from: 'crisp.mail.notification@gmail.com',
       },
