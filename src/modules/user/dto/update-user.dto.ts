@@ -19,6 +19,11 @@ export class UpdateUserDto {
   @ApiProperty({ example: 'Bob Brown' })
   public readonly username?: string;
 
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ example: 'password' })
+  public readonly password?: string;
+
   @IsEmail()
   @IsString()
   @IsOptional()

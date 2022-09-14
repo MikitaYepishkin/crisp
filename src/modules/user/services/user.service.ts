@@ -56,7 +56,11 @@ export class UserService {
     id: Types.ObjectId,
     payload: UpdateUserDto,
   ): Promise<UserEntityWithId> {
-    return this.userRepository.findByIdAndUpdate(id, payload, { new: true }).exec();
+    const data = payload.password ? {
+      ...payload,
+      password: await this.bcryptHashService.hashPassword(payload.password)
+    } : payload;
+    return this.userRepository.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 
   public async deleteUserById(id: Types.ObjectId): Promise<UserEntityWithId> {
