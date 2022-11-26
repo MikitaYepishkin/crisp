@@ -62,7 +62,7 @@ export class CreateElementDto {
       url: 'https://en.wikipedia.org',
     }),
   })
-  public readonly pageObjectPattern: ElementPatternDataDto | null;
+  public readonly pageObjectPattern: PatternEntityWithId | null;
   // public readonly pageObjectPattern: ElementPatternDataDto | null;
 
   @IsArray()
