@@ -28,6 +28,6 @@ import { RoleModule } from './modules/role';
     SelectorModule,
     ResourceModule,
     RoleModule,
-  ],
+  ]
 })
 export class AppModule {}

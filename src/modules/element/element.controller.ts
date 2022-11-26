@@ -64,10 +64,14 @@ export class ElementController {
     @Param('id') id: string,
     @Body(new ValidationPipe()) updateElementDto: UpdateElementDto,
   ): Promise<ElementEntity> {
-    return this.elementService.updateElementById(new Types.ObjectId(id), {
-      ...updateElementDto,
-      date: new Date(Date.now()),
-    });
+    const data: any = {...updateElementDto, date: new Date(Date.now())};
+    if(data.pageId) {
+      data.pageId = new Types.ObjectId(data.pageId);
+    }
+    if(data.parentElementId) {
+      data.parentElementId = new Types.ObjectId(data.parentElementId);
+    }
+    return this.elementService.updateElementById(new Types.ObjectId(id), data);
   }
 
   @Delete(':id')
@@ -96,6 +100,13 @@ export class ElementController {
   public async createElement(
     @Body(new ValidationPipe()) createElementDto: CreateElementDto,
   ): Promise<ElementEntity> {
-    return this.elementService.createElement({ ...createElementDto, date: new Date(Date.now()) });
+    const data: any = {...createElementDto, date: new Date(Date.now())};
+    if(data.pageId) {
+      data.pageId = new Types.ObjectId(data.pageId);
+    }
+    if(data.parentElementId) {
+      data.parentElementId = new Types.ObjectId(data.parentElementId);
+    }
+    return this.elementService.createElement(data);
   }
 }

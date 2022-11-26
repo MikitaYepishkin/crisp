@@ -64,10 +64,11 @@ export class PageController {
     @Param('id') id: string,
     @Body(new ValidationPipe()) updatePageDto: UpdatePageDto,
   ): Promise<PageEntity> {
-    return this.pageService.updatePageById(new Types.ObjectId(id), {
-      ...updatePageDto,
-      date: new Date(Date.now()),
-    });
+    const data: any = {...updatePageDto, date: new Date(Date.now())};
+    if(data.projectId) {
+      data.projectId = new Types.ObjectId(data.projectId);
+    }
+    return this.pageService.updatePageById(new Types.ObjectId(id), data);
   }
 
   @Delete(':id')
@@ -96,6 +97,10 @@ export class PageController {
   public async createPage(
     @Body(new ValidationPipe()) createPageDto: CreatePageDto,
   ): Promise<PageEntity> {
-    return this.pageService.createPage({ ...createPageDto, date: new Date(Date.now()) });
+    const data: any = {...createPageDto, date: new Date(Date.now())};
+    if(data.projectId) {
+      data.projectId = new Types.ObjectId(data.projectId);
+    }
+    return this.pageService.createPage(data);
   }
 }

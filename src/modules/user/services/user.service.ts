@@ -12,7 +12,7 @@ import { BcryptHashService } from '../../../common/services/bcrypt-hash.service'
 export class UserService {
   constructor(
     @InjectModel(UserEntity.name) private readonly userRepository: Model<UserEntity>,
-    private readonly bcryptHashService: BcryptHashService,
+    private readonly bcryptHashService: BcryptHashService
   ) {}
 
   public async getUserByRefreshToken(
@@ -56,7 +56,11 @@ export class UserService {
     id: Types.ObjectId,
     payload: UpdateUserDto,
   ): Promise<UserEntityWithId> {
-    return this.userRepository.findByIdAndUpdate(id, payload, { new: true }).exec();
+    const data = payload.password ? {
+      ...payload,
+      password: await this.bcryptHashService.hashPassword(payload.password)
+    } : payload;
+    return this.userRepository.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 
   public async deleteUserById(id: Types.ObjectId): Promise<UserEntityWithId> {
@@ -90,7 +94,7 @@ export class UserService {
     console.log('--------------- 999 ----------');
     await this.updateUserById(id, {
       currentHashedRefreshToken: refreshToken,
-      date: new Date(Date.now()),
+      date: new Date(Date.now())
     });
     return this.getUserById(id);
   }

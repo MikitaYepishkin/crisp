@@ -2,6 +2,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 
 import { ConfigService } from 'src/config';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { ConfigService } from 'src/config';
         maxPoolSize: configService.get('MONGODB_CONNECTION_POOL_MAX'),
         minPoolSize: configService.get('MONGODB_CONNECTION_POOL_MIN'),
       }),
-      inject: [ConfigService],
+      inject: [ConfigService, MailerService],
     }),
   ],
 })

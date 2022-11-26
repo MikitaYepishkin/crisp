@@ -51,6 +51,14 @@ export class UserEntity {
     description: 'Project Date Mongo Id',
   })
   public date: Date = new Date(Date.now());
+
+  @ApiProperty({ example: false })
+  @Prop({
+    type: Boolean,
+    required: false,
+    description: 'Check is user exit in first time',
+  })
+  public readonly isFirstExit: boolean = false;
 }
 
 export interface UserEntityWithId extends UserEntity {

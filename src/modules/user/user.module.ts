@@ -9,10 +9,30 @@ import { JwtConfigService } from '../auth/jwt-config.service';
 import { ConfigService } from 'src/config';
 import { RoleModule } from '../role/role.module';
 import { BcryptHashService } from '../../common/services';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
     RoleModule,
+    MailerModule.forRoot({
+      // transport: 'smtps://crisp.mail.notification@gmail.com:crisp_2022@smtp.domain.com',
+      transport: {
+        // host: 'localhost',
+        // port: 1025,
+        service: "Gmail",
+        // host: 'localhost',
+        // port: 1025,
+        ignoreTLS:  true,
+        secure: false,
+        auth: {
+          user: "crisp.mail.notification@gmail.com",
+          pass: "jjhoehfeunlhygky",
+        },
+      },
+      defaults: {
+        from: 'crisp.mail.notification@gmail.com',
+      },
+    }),
     MongooseModule.forFeature([{ name: UserEntity.name, schema: UserSchema }]),
     JwtModule.registerAsync({ useClass: JwtConfigService, inject: [ConfigService] }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
