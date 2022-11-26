@@ -62,7 +62,7 @@ export class CreateElementDto {
       url: 'https://en.wikipedia.org',
     }),
   })
-  public readonly pageObjectPattern: PatternEntityWithId | null;
+  public readonly pageObjectPattern: ElementPatternDataDto | null;
   // public readonly pageObjectPattern: ElementPatternDataDto | null;
 
   @IsArray()
@@ -75,7 +75,7 @@ export class CreateElementDto {
     ],
   })
   @Type(() => ElementPatternDataDto)
-  public readonly actionPatterns: PatternDataEntityWithId[];
+  public readonly actionPatterns: ElementPatternDataDto[];
 
   @IsMongoId()
   @ApiProperty({ example: new Types.ObjectId() })
