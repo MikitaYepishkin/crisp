@@ -94,10 +94,16 @@ export class AuthService {
     //---------------------------------------------------------------------------
 
     console.log('--------------- VVVV ----- 2 -----');
-    const frameworksIds = projectsEntity.map((pr) => pr.frameworkId);
-    const frameworksEntity = await this.frameworkService.getFrameworks({
-      _id: { $in: frameworksIds },
-    });
+    let frameworksIds, frameworksEntity;
+    if(isAdmin) {
+      frameworksEntity = await this.frameworkService.getFrameworks({});
+      frameworksIds = frameworksEntity.map((frameworkEntity) => frameworkEntity._id);
+    } else {
+      frameworksIds = projectsEntity.map((pr) => pr.frameworkId);
+      frameworksEntity = await this.frameworkService.getFrameworks({
+        _id: { $in: frameworksIds },
+      });
+    }
     const frameworks = await this.frameworkService.mapEntitysToDtos(frameworksEntity);
     //---------------------------------------------------------------------------
 
