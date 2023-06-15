@@ -41,18 +41,18 @@ export class ElementService {
     const pageObjectPatternId = await setObjectPatternData(createElementDto);
     const actionPatternIds = await setActionPatternData(createElementDto);
 
-    const { name, description, pageId, parentElementId } = createElementDto;
+    let { name, description, pageId, parentElementId } = createElementDto;
 
-    const _parentElementId = parentElementId
-      ? new Types.ObjectId(parentElementId)
-      : parentElementId;
-    const _pageId = pageId ? new Types.ObjectId(pageId) : pageId;
+    parentElementId = typeof parentElementId === 'string' ? new Types.ObjectId(parentElementId) : parentElementId;
+    //  ? new Types.ObjectId(parentElementId)
+    //  : parentElementId;
+    pageId = typeof pageId === 'string' ? new Types.ObjectId(pageId) : pageId;
 
     return new this.elementRepository({
       name,
       description,
-      _pageId,
-      _parentElementId,
+      pageId,
+      parentElementId,
       actionPatternIds,
       pageObjectPatternId,
     }).save();
