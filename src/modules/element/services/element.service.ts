@@ -19,7 +19,8 @@ export class ElementService {
   ) {}
 
   public async createElement(createElementDto: CreateElementDto): Promise<ElementEntityWithId> {
-    await this.selectorService.createSelector(createElementDto.selectors);
+    const newSelectors = createElementDto.selectors && await this.selectorService.createSelector(createElementDto.selectors);
+    const selectors = newSelectors && newSelectors._id;
     const setObjectPatternData = async (params) => {
       if (!params.pageObjectPattern) return params.pageObjectPattern;
       const pageObjectPattern = await this.patternDataService.createPatternData(
@@ -55,6 +56,7 @@ export class ElementService {
       parentElementId,
       actionPatternIds,
       pageObjectPatternId,
+      selectors
     }).save();
   }
 
