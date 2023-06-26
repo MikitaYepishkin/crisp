@@ -173,7 +173,9 @@ export class ElementService {
       name: elementEntity.name || '',
       description: elementEntity.description || '',
       page: elementEntity.pageId?._id?.toString() || '',
-      selectors: elementEntity.selectors || {},
+      selectors: elementEntity.selectors
+        ? await this.selectorService.getSelectorById(elementEntity.selectors)
+        : {},
       pageObjectPattern: elementEntity.pageObjectPatternId,
       actionPatterns: elementEntity.actionPatternIds || [],
       parentElement: elementEntity?.parentElementId?._id?.toString() || '',
