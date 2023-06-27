@@ -44,7 +44,7 @@ export class PageService {
       _id: pageEntity?._id?.toString() || '',
       date: pageEntity.date,
       name: pageEntity.name || '',
-      project: pageEntity.projectId?._id?.toString() || '',
+      projectId: pageEntity.projectId?._id?.toString() || '',
       description: pageEntity.description || '',
     };
   }
