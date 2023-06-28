@@ -18,7 +18,7 @@ export class ElementPatternDataDto {
     },
     description: 'Pattern Data'
   })
-  public readonly customVars: TCustomVars;
+  public readonly customVars?: TCustomVars;
 
   constructor(id: Types.ObjectId, customVars: TCustomVars) {
     this.id = id;
