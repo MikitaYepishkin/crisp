@@ -8,10 +8,17 @@ export class ElementPatternDataDto {
   @ApiProperty({ example: new Types.ObjectId() })
   public readonly id?: Types.ObjectId;
 
-  @ApiProperty({ example: { url: 'https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna' } })
-  public readonly customVars: any = {};
+  @ApiProperty({
+    type: Object,
+    description: 'Pattern Data',
+  })
+  public readonly customVars?: {
+    [key: string]: string | undefined;
+  };
 
-  constructor(id: Types.ObjectId, customVars: any) {
+  constructor(id: Types.ObjectId, customVars?: {
+    [key: string]: string | undefined;
+  }) {
     this.id = id;
     this.customVars = customVars || {};
   }
