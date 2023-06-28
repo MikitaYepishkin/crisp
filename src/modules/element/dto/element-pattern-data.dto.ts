@@ -14,12 +14,12 @@ export class ElementPatternDataDto {
   @ApiProperty({ example: new Types.ObjectId() })
   public readonly id?: Types.ObjectId;
 
-  @ApiProperty({ example: new CustomVarsDto() })
+  @ApiProperty({})
   @ValidateNested({ each: true })
-  @Type(() => CustomVarsDto)
-  public readonly customVars: CustomVarsDto;
+  @Type(() => ICustomVarsDto)
+  public readonly customVars: ICustomVarsDto;
 
-  constructor(id: Types.ObjectId, customVars: CustomVarsDto) {
+  constructor(id: Types.ObjectId, customVars: ICustomVarsDto) {
     this.id = id;
     this.customVars = customVars;
   }
