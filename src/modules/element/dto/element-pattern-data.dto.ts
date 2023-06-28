@@ -3,22 +3,22 @@ import { Type } from 'class-transformer';
 import { IsMongoId, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Types } from 'mongoose';
 
+type TCustomVars = {
+  [key: string]: string;
+};
+
 export class ElementPatternDataDto {
   @IsMongoId()
   @ApiProperty({ example: new Types.ObjectId() })
   public readonly id?: Types.ObjectId;
 
   @ApiProperty({
-    type: Object,
+    type: TCustomVars,
     description: 'Pattern Data',
   })
-  public readonly customVars: {
-    [key: string]: string | undefined;
-  };
+  public readonly customVars: TCustomVars;
 
-  constructor(id: Types.ObjectId, customVars: {
-    [key: string]?: string | undefined;
-  }) {
+  constructor(id: Types.ObjectId, customVars: TCustomVars) {
     this.id = id;
     this.customVars = customVars || {};
   }
