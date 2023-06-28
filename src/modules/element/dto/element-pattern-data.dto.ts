@@ -3,12 +3,11 @@ import { Type } from 'class-transformer';
 import { IsMongoId, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Types } from 'mongoose';
 
-class CustomVarsDto {
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ example: 'https://en.wikipedia.org' })
-  public readonly [key: string]?: string
+interface ICustomVarsDto {
+  [key: string]?: string
 }
+
+class CustomVarsDto implements ICustomVarsDto {}
 
 export class ElementPatternDataDto {
   @IsMongoId()
