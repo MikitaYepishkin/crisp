@@ -9,8 +9,6 @@ export class ElementPatternDataDto {
   public readonly id?: Types.ObjectId;
 
   @ApiProperty({ example: { url: 'https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna' } })
-  @ValidateNested({ each: true })
-  @Type(() => any)
   public readonly customVars: any = {};
 
   constructor(id: Types.ObjectId, customVars: any) {
