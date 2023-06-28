@@ -13,8 +13,10 @@ export class ElementPatternDataDto {
   public readonly id?: Types.ObjectId;
 
   @ApiProperty({
-    type: TCustomVars,
-    description: 'Pattern Data',
+    type: {
+      url: 'https://www.wikipedia.org/'
+    },
+    description: 'Pattern Data'
   })
   public readonly customVars: TCustomVars;
 
