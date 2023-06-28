@@ -3,24 +3,18 @@ import { Type } from 'class-transformer';
 import { IsMongoId, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Types } from 'mongoose';
 
-interface ICustomVarsDto {
-  [key: string]?: string
-}
-
-class CustomVarsDto implements ICustomVarsDto {}
-
 export class ElementPatternDataDto {
   @IsMongoId()
   @ApiProperty({ example: new Types.ObjectId() })
   public readonly id?: Types.ObjectId;
 
-  @ApiProperty({})
+  @ApiProperty({ example: { url: 'https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna' } })
   @ValidateNested({ each: true })
-  @Type(() => ICustomVarsDto)
-  public readonly customVars: ICustomVarsDto;
+  @Type(() => any)
+  public readonly customVars: any = {};
 
-  constructor(id: Types.ObjectId, customVars: ICustomVarsDto) {
+  constructor(id: Types.ObjectId, customVars: any) {
     this.id = id;
-    this.customVars = customVars;
+    this.customVars = customVars || {};
   }
 }
