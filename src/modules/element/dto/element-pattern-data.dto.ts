@@ -7,12 +7,7 @@ class CustomVarsDto {
   @IsString()
   @IsOptional()
   @ApiProperty({ example: 'https://en.wikipedia.org' })
-  public readonly url?: string;
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ example: 'Lorem ipsum' })
-  public readonly text?: string;
+  public readonly [key: string]?: string
 }
 
 export class ElementPatternDataDto {
