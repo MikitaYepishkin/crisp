@@ -13,10 +13,10 @@ export class ElementPatternDataDto {
     description: 'Pattern Data',
   })
   public readonly customVars: {
-    [key: string]?: string | undefined;
+    [key: string]: string | undefined;
   };
 
-  constructor(id: Types.ObjectId, customVars?: {
+  constructor(id: Types.ObjectId, customVars: {
     [key: string]?: string | undefined;
   }) {
     this.id = id;
