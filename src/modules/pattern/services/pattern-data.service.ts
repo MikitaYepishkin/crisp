@@ -20,7 +20,7 @@ export class PatternDataService {
   public async createPatternData(
     createPatternDataDto: CreatePatternDataDto,
   ): Promise<PatternDataEntityWithId> {
-    if (await this.patternService.getPatternById(createPatternDataDto.id)) {
+    if (!(await this.patternService.getPatternById(createPatternDataDto.id))) {
       throw new NotFoundException(
         createError(ErrorTypeEnum.PATTERN_NOT_FOUND, String(createPatternDataDto.id)),
       );
