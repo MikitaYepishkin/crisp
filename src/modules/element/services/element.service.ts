@@ -32,7 +32,7 @@ export class ElementService {
     const setActionPatternData = async (params) => {
       if (!params.actionPatterns.length) return params.actionPatterns;
       const pageActionPatterns = await Promise.all(
-        createElementDto.actionPatterns.map(
+        params.actionPatterns.map(
           this.patternDataService.createPatternData.bind(this.patternDataService),
         ),
       );
