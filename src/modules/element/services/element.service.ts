@@ -169,13 +169,13 @@ export class ElementService {
     console.log(elementEntity);
     const elementActionPatIds = elementEntity.actionPatternIds;
     let actionPatterns: any[] = [];
+    console.log(`elementActionPatIds: ${elementActionPatIds} | length: ${elementActionPatIds.length}`);
     if(elementActionPatIds) {
-      for(let i=0; i < elementActionPatIds.length; ++i) {
-        const actionPattern = (await this.patternDataService.getPatterns({
-          _id: { $in: elementActionPatIds[i] },
-        })) || [];
-        actionPatterns.push(actionPattern);
-      }
+      console.log(`actionPatterns: ${actionPatterns}`);
+      const actionPatterns = (await this.patternDataService.getPatterns({
+        _id: { $in: elementActionPatIds },
+      })) || [];
+      console.log(`actionPatterns: ${actionPatterns}`);
     }
     const result = {
       _id: elementEntity?._id?.toString() || '',
