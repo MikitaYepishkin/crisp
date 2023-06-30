@@ -167,18 +167,19 @@ export class ElementService {
   public async mapEntityToDto(elementEntity: ElementEntityWithId): Promise<ElementDto> {
     console.log(`------- mapEntityToDto Elements ----------`);
     console.log(elementEntity);
-    const elementActionPatIds = elementEntity.actionPatternIds;
-    let actionPatterns: any[] = [];
+    const elementActionPatIds = elementEntity.actionPatternIds || [];
+    let actionPatterns: any = [];
     // console.log(`elementActionPatIds: ${elementActionPatIds} | length: ${elementActionPatIds.length}`);
     if(elementActionPatIds && elementActionPatIds.length) {
       // console.log(`actionPatterns: ${actionPatterns}`);
       try {
-       actionPatterns = (await this.patternDataService.getPatterns({
-        _id: { $in: elementActionPatIds },
-        })) || [];
+        actionPatterns = await this.patternDataService.getPatterns({
+          _id: { $in: elementActionPatIds },
+        });
         // console.log(`actionPatterns: ${actionPatterns}`); 
       } catch(err: any) {
-        // console.log(`actionPatterns: ${actionPatterns}`); 
+        // console.log(`actionPatterns: ${actionPatterns}`);
+        actionPatterns = [];
         console.log(`actionPatterns_err: ${err}`); 
       }
     }
@@ -205,7 +206,12 @@ export class ElementService {
     const result = [];
 
     for (let i = 0; i < elementEntitys.length; ++i) {
-      result.push(await this.mapEntityToDto(elementEntitys[i]));
+      try {
+        const element = await this.mapEntityToDto(elementEntitys[i]);
+        result.push(element);
+      } catch(e: any) {
+        console.log('Error elementEntitys');
+      }
     }
 
     return result;
