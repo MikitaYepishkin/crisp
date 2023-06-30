@@ -167,6 +167,16 @@ export class ElementService {
   public async mapEntityToDto(elementEntity: ElementEntityWithId): Promise<ElementDto> {
     console.log(`------- mapEntityToDto Elements ----------`);
     console.log(elementEntity);
+    const elementActionPatIds = elementEntity.actionPatternIds;
+    let actionPatterns: any[] = [];
+    if(elementActionPatIds) {
+      for(let i=0; i < elementActionPatIds.length; ++i) {
+        const actionPattern = (await this.patternDataService.getPatterns({
+          _id: { $in: elementActionPatIds[i] },
+        })) || [];
+        actionPatterns.push(actionPattern);
+      }
+    }
     const result = {
       _id: elementEntity?._id?.toString() || '',
       date: elementEntity.date || new Date(Date.now()),
@@ -177,7 +187,7 @@ export class ElementService {
         ? await this.selectorService.getSelectorById(elementEntity.selectors)
         : {},
       pageObjectPattern: elementEntity.pageObjectPatternId,
-      actionPatterns: elementEntity.actionPatternIds || [],
+      actionPatterns: actionPatterns,
       parentElement: elementEntity?.parentElementId?._id?.toString() || '',
     };
 
