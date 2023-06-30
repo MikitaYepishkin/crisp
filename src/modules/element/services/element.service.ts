@@ -21,6 +21,7 @@ export class ElementService {
   public async createElement(createElementDto: CreateElementDto): Promise<ElementEntityWithId> {
     const newSelectors = createElementDto.selectors && await this.selectorService.createSelector(createElementDto.selectors);
     const selectors = newSelectors && newSelectors._id;
+    /*
     const setObjectPatternData = async (params) => {
       if (!params.pageObjectPattern) return params.pageObjectPattern;
       const pageObjectPattern = await this.patternDataService.createPatternData(
@@ -28,6 +29,7 @@ export class ElementService {
       );
       return pageObjectPattern._id;
     };
+    */
 
     const setActionPatternData = async (params) => {
       if (!params.actionPatterns.length) return params.actionPatterns;
@@ -39,7 +41,7 @@ export class ElementService {
       return pageActionPatterns; // .map((pattern: any) => pattern._id);
     };
 
-    const pageObjectPatternId = await setObjectPatternData(createElementDto);
+    const pageObjectPatternId = createElementDto.pageObjectPattern? createElementDto.pageObjectPattern?._id || null : null; // await setObjectPatternData(createElementDto);
     const actionPatterns = await setActionPatternData(createElementDto);
     const actionPatternIds = actionPatterns.map((pattern: any) => pattern._id);
 
