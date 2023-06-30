@@ -169,16 +169,16 @@ export class ElementService {
     console.log(elementEntity);
     const elementActionPatIds = elementEntity.actionPatternIds;
     let actionPatterns: any[] = [];
-    console.log(`elementActionPatIds: ${elementActionPatIds} | length: ${elementActionPatIds.length}`);
-    if(elementActionPatIds) {
-      console.log(`actionPatterns: ${actionPatterns}`);
+    // console.log(`elementActionPatIds: ${elementActionPatIds} | length: ${elementActionPatIds.length}`);
+    if(elementActionPatIds && elementActionPatIds.length) {
+      // console.log(`actionPatterns: ${actionPatterns}`);
       try {
        actionPatterns = (await this.patternDataService.getPatterns({
         _id: { $in: elementActionPatIds },
         })) || [];
-        console.log(`actionPatterns: ${actionPatterns}`); 
+        // console.log(`actionPatterns: ${actionPatterns}`); 
       } catch(err: any) {
-        console.log(`actionPatterns: ${actionPatterns}`); 
+        // console.log(`actionPatterns: ${actionPatterns}`); 
         console.log(`actionPatterns_err: ${err}`); 
       }
     }
