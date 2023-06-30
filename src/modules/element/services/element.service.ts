@@ -172,10 +172,15 @@ export class ElementService {
     console.log(`elementActionPatIds: ${elementActionPatIds} | length: ${elementActionPatIds.length}`);
     if(elementActionPatIds) {
       console.log(`actionPatterns: ${actionPatterns}`);
-      actionPatterns = (await this.patternDataService.getPatterns({
+      try {
+       actionPatterns = (await this.patternDataService.getPatterns({
         _id: { $in: elementActionPatIds },
-      })) || [];
-      console.log(`actionPatterns: ${actionPatterns}`);
+        })) || [];
+        console.log(`actionPatterns: ${actionPatterns}`); 
+      } catch(err: any) {
+        console.log(`actionPatterns: ${actionPatterns}`); 
+        console.log(`actionPatterns_err: ${err}`); 
+      }
     }
     const result = {
       _id: elementEntity?._id?.toString() || '',
