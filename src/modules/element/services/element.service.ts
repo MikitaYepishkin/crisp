@@ -172,7 +172,7 @@ export class ElementService {
     console.log(`elementActionPatIds: ${elementActionPatIds} | length: ${elementActionPatIds.length}`);
     if(elementActionPatIds) {
       console.log(`actionPatterns: ${actionPatterns}`);
-      const actionPatterns = (await this.patternDataService.getPatterns({
+      actionPatterns = (await this.patternDataService.getPatterns({
         _id: { $in: elementActionPatIds },
       })) || [];
       console.log(`actionPatterns: ${actionPatterns}`);
