@@ -40,7 +40,8 @@ export class ElementService {
     };
 
     const pageObjectPatternId = await setObjectPatternData(createElementDto);
-    const actionPatternIds = await setActionPatternData(createElementDto);
+    const actionPatterns = await setActionPatternData(createElementDto);
+    const actionPatternIds = actionPatterns.map((pattern: any) => pattern._id);
 
     let { name, description, pageId, parentElementId } = createElementDto;
 
@@ -49,7 +50,7 @@ export class ElementService {
     //  : parentElementId;
     pageId = typeof pageId === 'string' ? new Types.ObjectId(pageId) : pageId;
 
-    return new this.elementRepository({
+    const newEl =  new this.elementRepository({
       name,
       description,
       pageId,
@@ -58,6 +59,8 @@ export class ElementService {
       pageObjectPatternId,
       selectors
     }).save();
+
+    return {...newEl, actionPatternIds: actionPatterns};
   }
 
   public async asyncMapClone(datas: any, servive: any, transformFunc: any) {
