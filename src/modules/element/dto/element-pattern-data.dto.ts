@@ -10,7 +10,7 @@ type TCustomVars = {
 export class ElementPatternDataDto {
   @IsMongoId()
   @ApiProperty({ example: new Types.ObjectId() })
-  public readonly id?: Types.ObjectId;
+  public readonly id: Types.ObjectId;
 
   @ApiProperty({
     type: {
@@ -18,6 +18,7 @@ export class ElementPatternDataDto {
     },
     description: 'Pattern Data'
   })
+  @IsOptional()
   public readonly customVars?: TCustomVars;
 
   constructor(id: Types.ObjectId, customVars: TCustomVars) {
