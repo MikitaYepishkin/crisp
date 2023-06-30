@@ -36,7 +36,7 @@ export class ElementService {
           this.patternDataService.createPatternData.bind(this.patternDataService),
         ),
       );
-      return pageActionPatterns.map((pattern: any) => pattern._id);
+      return pageActionPatterns; // .map((pattern: any) => pattern._id);
     };
 
     const pageObjectPatternId = await setObjectPatternData(createElementDto);
