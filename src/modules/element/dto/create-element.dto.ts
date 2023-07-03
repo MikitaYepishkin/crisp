@@ -58,11 +58,9 @@ export class CreateElementDto {
   // @ValidateNested()
   @IsEmpty()
   @ApiProperty({
-    example: new ElementPatternDataDto(new Types.ObjectId('61c0ba48ee16536eca6eaa29'), {
-      url: 'https://en.wikipedia.org',
-    }),
+    example: new Types.ObjectId(),
   })
-  public readonly pageObjectPattern: PatternEntityWithId | null;
+  public readonly pageObjectPattern: Types.ObjectId | null;
   // public readonly pageObjectPattern: ElementPatternDataDto | null;
 
   @IsArray()
