@@ -197,7 +197,7 @@ export class ElementService {
       selectors: elementEntity.selectors
         ? await this.selectorService.getSelectorById(elementEntity.selectors)
         : {},
-      pageObjectPattern: elementEntity.pageObjectPatternId,
+      pageObjectPattern: elementEntity?.pageObjectPatternId?.toString() || null,
       actionPatterns: actionPatterns,
       parentElement: elementEntity?.parentElementId?._id?.toString() || '',
     };
