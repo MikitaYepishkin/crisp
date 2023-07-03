@@ -34,8 +34,8 @@ export class ElementEntity {
     type: Types.ObjectId,
     description: 'Object Pattern Mongo Id',
   })
-  @Prop({ type: Types.ObjectId, ref: PatternEntity.name })
-  public pageObjectPatternId: PatternEntityWithId | null;
+  @Prop({ type: Types.ObjectId })
+  public pageObjectPatternId: Types.ObjectId | null;
 
   @ApiProperty({
     type: [Types.ObjectId],
