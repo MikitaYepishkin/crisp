@@ -11,7 +11,7 @@ export class ElementDto {
   public description: string;
   public page: string;
   public selectors: SelectorEntityWithId | emptyObject;
-  public pageObjectPattern: PatternEntityWithId | null;
+  public pageObjectPattern: string | null;
   public actionPatterns: any[];
   public parentElement: string;
 }
