@@ -41,7 +41,7 @@ export class ElementService {
       return pageActionPatterns; // .map((pattern: any) => pattern._id);
     };
 
-    const pageObjectPatternId = createElementDto.pageObjectPattern? createElementDto.pageObjectPattern?._id || null : null; // await setObjectPatternData(createElementDto);
+    const pageObjectPatternId = createElementDto.pageObjectPattern? new Types.ObjectId(createElementDto.pageObjectPattern) : null; // await setObjectPatternData(createElementDto);
     const actionPatterns = await setActionPatternData(createElementDto);
     const actionPatternIds = actionPatterns.map((pattern: any) => pattern._id);
 
