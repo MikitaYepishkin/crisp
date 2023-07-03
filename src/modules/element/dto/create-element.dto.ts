@@ -56,10 +56,11 @@ export class CreateElementDto {
   public readonly selectors: ElementSelectorsDto;
 
   // @ValidateNested()
-  @IsEmpty()
+  @IsMongoId()
   @ApiProperty({
     example: new Types.ObjectId(),
   })
+  @IsOptional()
   public readonly pageObjectPattern: Types.ObjectId | null;
   // public readonly pageObjectPattern: ElementPatternDataDto | null;
 
