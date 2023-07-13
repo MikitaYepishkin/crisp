@@ -8,9 +8,9 @@ import { ProjectEntity, ProjectEntityWithId } from '../project/project.entity';
 @Schema()
 export class PageEntity {
   @ApiProperty({ maxLength: 50 })
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   @IsOptional()
-  public description?: string;
+  public description: string = '';
 
   @ApiProperty({
     type: Types.ObjectId,
