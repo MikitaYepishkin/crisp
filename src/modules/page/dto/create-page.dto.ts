@@ -5,9 +5,6 @@ import { setValidationMessage } from 'src/common/helpers';
 
 export class CreatePageDto {
   @IsString()
-  @MinLength(-1, {
-    message: setValidationMessage('Page description should be more than'),
-  })
   @MaxLength(20, {
     message: setValidationMessage('Page description should be less than'),
   })
