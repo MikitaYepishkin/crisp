@@ -59,9 +59,7 @@ async function bootstrap() {
     .useGlobalInterceptors(transformInterceptor)
     .listen($post, $host);
 
- console.log('SWAGER: ' +  configService.get('SWAGGER_MODULE'));
   if (configService.get('SWAGGER_MODULE')) {
-    console.log('Build SWAGER ');
     const config = new DocumentBuilder()
       .setDescription(configService.get('npm_package_description'))
       .setVersion(configService.get('npm_package_version'))
@@ -70,7 +68,7 @@ async function bootstrap() {
       .build();
 
     const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api', app, document);
+    SwaggerModule.setup('/', app, document);
   }
 }
 
