@@ -36,7 +36,7 @@ export class UserService {
       ...createUserDto,
       password: await this.bcryptHashService.hashPassword(createUserDto.password),
       roles: createUserDto.roles.map((roleId: any) => {
-        return new Types.ObjectId();
+        return new Types.ObjectId(roleId);
       }),
     };
     return new this.userRepository(createUser).save();
