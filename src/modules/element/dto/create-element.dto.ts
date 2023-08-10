@@ -18,6 +18,7 @@ import { setValidationMessage } from 'src/common/helpers';
 import { PatternEntityWithId } from 'src/modules/pattern/pattern.entity';
 import { PatternDataEntityWithId } from 'src/modules/pattern/pattern-data.entity ';
 import { isNull } from 'lodash';
+import { CreatePatternDataDto } from 'src/modules/pattern/dto/create-pattern-data.dto';
 
 export class CreateElementDto {
   @IsString()
@@ -68,13 +69,13 @@ export class CreateElementDto {
   @ValidateNested({ each: true })
   @ApiProperty({
     example: [
-      new ElementPatternDataDto(new Types.ObjectId('61c0ba48ee16536eca6eaa29'), {
+      new CreatePatternDataDto(new Types.ObjectId('61c0ba48ee16536eca6eaa29'), {
         url: 'https://en.google.com',
       }),
     ],
   })
-  @Type(() => ElementPatternDataDto)
-  public readonly actionPatterns: ElementPatternDataDto[];
+  @Type(() => CreatePatternDataDto)
+  public readonly actionPatterns: CreatePatternDataDto[];
 
   @IsMongoId()
   @ApiProperty({ example: new Types.ObjectId() })

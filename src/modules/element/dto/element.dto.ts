@@ -1,3 +1,4 @@
+import { PatternDataDto } from 'src/modules/pattern/dto/pattern-data.dto';
 import { PatternDataEntityWithId } from 'src/modules/pattern/pattern-data.entity ';
 import { PatternEntityWithId } from 'src/modules/pattern/pattern.entity';
 import { SelectorEntityWithId } from 'src/modules/selector/selector.entity';
@@ -12,6 +13,6 @@ export class ElementDto {
   public page: string;
   public selectors: SelectorEntityWithId | emptyObject;
   public pageObjectPattern: string | null;
-  public actionPatterns: any[];
+  public actionPatterns: PatternDataDto[];
   public parentElement: string;
 }
