@@ -2,6 +2,7 @@ import { PatternDataDto } from 'src/modules/pattern/dto/pattern-data.dto';
 import { PatternDataEntityWithId } from 'src/modules/pattern/pattern-data.entity ';
 import { PatternEntityWithId } from 'src/modules/pattern/pattern.entity';
 import { SelectorEntityWithId } from 'src/modules/selector/selector.entity';
+import { ElementPatternDataDto } from './element-pattern-data.dto';
 
 type emptyObject = {};
 
@@ -13,6 +14,6 @@ export class ElementDto {
   public page: string;
   public selectors: SelectorEntityWithId | emptyObject;
   public pageObjectPattern: string | null;
-  public actionPatterns: PatternDataDto[];
+  public actionPatterns: ElementPatternDataDto[];
   public parentElement: string;
 }

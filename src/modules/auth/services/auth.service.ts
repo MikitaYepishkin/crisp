@@ -127,8 +127,7 @@ export class AuthService {
     const elementsEntity = await this.elementService.getElements(
       {
         pageId: { $in: pageIds },
-      },
-      true,
+      }
     );
     const elements = await this.elementService.mapEntitysToDtos(elementsEntity);
     //---------------------------------------------------------------------------

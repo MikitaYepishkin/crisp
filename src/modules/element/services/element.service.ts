@@ -149,22 +149,10 @@ export class ElementService {
     return this.elementRepository.remove({ [field]: { $in: values } });
   }
 
-  public async getElements(options = {}, isPupulate = false): Promise<ElementEntityWithId[]> {
-    const elements = isPupulate
-      ? await this.elementRepository
-          .find(options)
-          .populate({
-            path: 'actionPatternIds',
-            model: PatternDataEntity.name,
-          })
-          .exec()
-      : await this.elementRepository.find(options);
+  public async getElements(options = {}): Promise<ElementEntityWithId[]> {
+    const elements = await this.elementRepository.find(options);
 
-    console.log(`------------------- Get Elements Serv: ------------------------------`);
-    console.log(`------------------- isPupulate: ${isPupulate} -----------------------`);
-    console.log(`------------------- Elements ----------------------------------------`);
-    console.log(elements);
-    console.log(`---------------------------------------------------------------------`);
+      console.log(elements);
 
     return elements;
   }
@@ -235,13 +223,10 @@ export class ElementService {
   ): Promise<ElementEntityWithId> {
     let updatedPayload = payload;
     if (updatedPayload.parentElementId) {
-      updatedPayload = {
-        ...updatedPayload,
-        parentElementId: new Types.ObjectId(updatedPayload.parentElementId),
-      };
+      updatedPayload.parentElementId = new Types.ObjectId(updatedPayload.parentElementId);
     }
     if (updatedPayload.pageId) {
-      updatedPayload = { ...updatedPayload, pageId: new Types.ObjectId(updatedPayload.pageId) };
+      updatedPayload.pageId = new Types.ObjectId(updatedPayload.pageId);
     }
     return this.elementRepository.findByIdAndUpdate(id, payload, { new: true }).exec();
   }

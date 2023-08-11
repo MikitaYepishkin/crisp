@@ -69,13 +69,13 @@ export class CreateElementDto {
   @ValidateNested({ each: true })
   @ApiProperty({
     example: [
-      new CreatePatternDataDto(new Types.ObjectId('61c0ba48ee16536eca6eaa29'), {
+      new ElementPatternDataDto(new Types.ObjectId('61c0ba48ee16536eca6eaa29'), {
         url: 'https://en.google.com',
       }),
     ],
   })
-  @Type(() => CreatePatternDataDto)
-  public readonly actionPatterns: CreatePatternDataDto[];
+  @Type(() => ElementPatternDataDto)
+  public readonly actionPatterns: ElementPatternDataDto[];
 
   @IsMongoId()
   @ApiProperty({ example: new Types.ObjectId() })
