@@ -221,7 +221,7 @@ export class ElementService {
     id: Types.ObjectId,
     payload: UpdateElementDto,
   ): Promise<ElementEntityWithId> {
-    let updatedPayload = payload;
+    let updatedPayload: any = payload;
     if (updatedPayload.parentElementId) {
       updatedPayload.parentElementId = new Types.ObjectId(updatedPayload.parentElementId);
     }
