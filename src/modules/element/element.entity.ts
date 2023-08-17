@@ -5,6 +5,7 @@ import * as mongoose from 'mongoose';
 import { PageEntity, PageEntityWithId } from '../page/page.entity';
 import { PatternEntity, PatternEntityWithId } from '../pattern/pattern.entity';
 import { PatternDataEntity, PatternDataEntityWithId } from '../pattern/pattern-data.entity ';
+import { ElementPatternDataDto } from './dto/element-pattern-data.dto';
 
 @Schema()
 export class ElementEntity {
@@ -41,8 +42,8 @@ export class ElementEntity {
     type: [Types.ObjectId],
     description: 'Action Pattern Mongo Id',
   })
-  @Prop({ type: Types.ObjectId, ref: PatternDataEntity.name })
-  public actionPatternIds: PatternDataEntityWithId[];
+  @Prop({ type: ElementPatternDataDto })
+  public actionPatterns: ElementPatternDataDto[];
 
   @ApiProperty({
     type: Types.ObjectId,

@@ -42,8 +42,7 @@ export class ElementService {
     };
 
     const pageObjectPatternId = createElementDto.pageObjectPattern? new Types.ObjectId(createElementDto.pageObjectPattern) : null; // await setObjectPatternData(createElementDto);
-    const actionPatterns = await setActionPatternData(createElementDto);
-    const actionPatternIds = actionPatterns.map((pattern: any) => pattern._id);
+    const actionPatterns = createElementDto.actionPatterns;
 
     let { name, description, pageId, parentElementId } = createElementDto;
 
@@ -57,12 +56,12 @@ export class ElementService {
       description,
       pageId,
       parentElementId,
-      actionPatternIds,
+      actionPatterns,
       pageObjectPatternId,
       selectors
     }).save();
 
-    return {...newEl, actionPatternIds: actionPatterns};
+    return newEl;
   }
 
   public async asyncMapClone(datas: any, servive: any, transformFunc: any) {
@@ -82,21 +81,7 @@ export class ElementService {
     console.log(element.selectors);
     let selector: any;
 
-    const actionPatD = element.actionPatternIds || [];
-
-    const patternsDataEntities =
-      (await this.patternDataService.getPatterns({
-        _id: { $in: actionPatD },
-      })) || [];
-
-    console.log('--------------- 6.211 ----------');
-    const actionPatDs = await this.asyncMapClone(
-      patternsDataEntities,
-      this.patternDataService,
-      async (data: any) => {
-        return data;
-      },
-    );
+    const actionPatDs = element.actionPatterns || [];
 
     try {
       console.log('--------------- 6.7 ----------');
@@ -117,7 +102,7 @@ export class ElementService {
           elementXPath: selector.elementXPath,
         },
         pageObjectPattern: element.pageObjectPatternId ? element.pageObjectPatternId : null,
-        actionPatterns: actionPatDs,
+        actionPatterns: [...actionPatDs],
         parentElementId: element.parentElementId._id,
         date: element.date,
       });
@@ -160,22 +145,8 @@ export class ElementService {
   public async mapEntityToDto(elementEntity: ElementEntityWithId): Promise<ElementDto> {
     console.log(`------- mapEntityToDto Elements ----------`);
     console.log(elementEntity);
-    const elementActionPatIds = elementEntity.actionPatternIds || [];
-    let actionPatterns: any = [];
-    // console.log(`elementActionPatIds: ${elementActionPatIds} | length: ${elementActionPatIds.length}`);
-    if(elementActionPatIds && elementActionPatIds.length) {
-      // console.log(`actionPatterns: ${actionPatterns}`);
-      try {
-        actionPatterns = await this.patternDataService.getPatterns({
-          _id: { $in: elementActionPatIds },
-        });
-        // console.log(`actionPatterns: ${actionPatterns}`); 
-      } catch(err: any) {
-        // console.log(`actionPatterns: ${actionPatterns}`);
-        actionPatterns = [];
-        console.log(`actionPatterns_err: ${err}`); 
-      }
-    }
+    const actionPatterns = elementEntity.actionPatterns || [];
+
     const result = {
       _id: elementEntity?._id?.toString() || '',
       date: elementEntity.date || new Date(Date.now()),
