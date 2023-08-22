@@ -51,7 +51,7 @@ export class ElementService {
     //  : parentElementId;
     pageId = typeof pageId === 'string' ? new Types.ObjectId(pageId) : pageId;
 
-    const { __v, ...newEl } =  new this.elementRepository({
+    const { __v, ...newEl } =  await new this.elementRepository({
       name,
       description,
       pageId,
@@ -61,7 +61,9 @@ export class ElementService {
       selectors
     }).save();
 
-    return newEl;
+    return new Promise(resolve => {
+      resolve(newEl);
+    });
   }
 
   public async asyncMapClone(datas: any, servive: any, transformFunc: any) {
@@ -199,9 +201,11 @@ export class ElementService {
     if (updatedPayload.pageId) {
       updatedPayload.pageId = new Types.ObjectId(updatedPayload.pageId);
     }
-    const { __v, ...updatedElement } = this.elementRepository.findByIdAndUpdate(id, payload, { new: true }).exec();
+    const { __v, ...updatedElement } = await this.elementRepository.findByIdAndUpdate(id, payload, { new: true }).exec();
 
-    return updatedElement;
+    return new Promise(resolve => {
+      resolve(updatedElement);
+    });
   }
 
   public async deleteElementById(id: Types.ObjectId): Promise<ElementEntityWithId> {

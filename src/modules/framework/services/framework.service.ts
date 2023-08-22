@@ -17,7 +17,9 @@ export class FrameworkService {
     createFrameworkDto: CreateFrameworkDto,
   ): Promise<FrameworkEntityWithId> {
     const { __v, ...newFramework } = new this.frameworkRepository(createFrameworkDto).save()
-    return newFramework;
+    return new Promise(resolve => {
+      resolve(newFramework);
+    });;
   }
 
   public bulkInsertFrameworks(
@@ -78,7 +80,9 @@ export class FrameworkService {
   ): Promise<FrameworkEntityWithId> {
     const { __v, ...updatedFramework } =  this.frameworkRepository.findByIdAndUpdate(id, payload, { new: true }).exec();
 
-    return updatedFramework;
+    return new Promise(resolve => {
+      resolve(updatedFramework);
+    });
   }
 
   public async deleteFrameworkById(id: Types.ObjectId): Promise<FrameworkEntityWithId> {

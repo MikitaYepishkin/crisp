@@ -20,7 +20,9 @@ export class ProjectService {
       frameworkId: new Types.ObjectId(createProjectDto.frameworkId),
     }).save();
 
-    return newProject;
+    return new Promise(resolve => {
+      resolve(newProject);
+    });
   }
 
   public async clone(project: ProjectEntityWithId) {
@@ -106,7 +108,9 @@ export class ProjectService {
     }
     const { __v, ...updatedProject } = this.projectRepository.findByIdAndUpdate(id, incomeUpdatedProject, { new: true }).exec();
 
-    return updatedProject;
+    return new Promise(resolve => {
+      resolve(updatedProject);
+    });
   }
 
   public async deleteProjectById(id: Types.ObjectId): Promise<ProjectEntityWithId> {

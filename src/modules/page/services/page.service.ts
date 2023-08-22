@@ -14,7 +14,9 @@ export class PageService {
   public async createPage(createPageDto: CreatePageDto): Promise<PageEntityWithId> {
     const { __v, ...newPage } = new this.pageRepository(createPageDto).save();
 
-    return newPage;
+    return new Promise(resolve => {
+      resolve(newPage);
+    });
   }
 
   public async clone(page: PageEntityWithId) {
@@ -78,7 +80,9 @@ export class PageService {
     }
     const { __v, ...updatedPage } = this.pageRepository.findByIdAndUpdate(id, incomeUpdatedPage, { new: true }).exec();
 
-    return updatedPage;
+    return new Promise(resolve => {
+      resolve(updatedPage);
+    });
   }
 
   public async deletePageById(id: Types.ObjectId): Promise<PageEntityWithId> {
