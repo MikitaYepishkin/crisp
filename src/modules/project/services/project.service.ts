@@ -15,10 +15,12 @@ export class ProjectService {
   ) {}
 
   public async createProject(createProjectDto: CreateProjectDto): Promise<ProjectEntityWithId> {
-    return new this.projectRepository({
+    const { __v, ...newProject } = new this.projectRepository({
       ...createProjectDto,
       frameworkId: new Types.ObjectId(createProjectDto.frameworkId),
     }).save();
+
+    return newProject;
   }
 
   public async clone(project: ProjectEntityWithId) {
@@ -80,15 +82,15 @@ export class ProjectService {
   ): Promise<ProjectEntityWithId> {
     console.log(`Update___`);
 
-    let updatedProject = payload;
-    console.log(updatedProject);
-    if (updatedProject.frameworkId) {
-      updatedProject = {
-        ...updatedProject,
-        frameworkId: new Types.ObjectId(updatedProject.frameworkId),
+    let incomeUpdatedProject = payload;
+    console.log(incomeUpdatedProject);
+    if (incomeUpdatedProject.frameworkId) {
+      incomeUpdatedProject = {
+        ...incomeUpdatedProject,
+        frameworkId: new Types.ObjectId(incomeUpdatedProject.frameworkId),
       };
     }
-    if (updatedProject.isDefault) {
+    if (incomeUpdatedProject.isDefault) {
       const projects = await this.getProjects();
 
       for (let i = 0; i < projects.length; ++i) {
@@ -102,7 +104,9 @@ export class ProjectService {
         }
       }
     }
-    return this.projectRepository.findByIdAndUpdate(id, updatedProject, { new: true }).exec();
+    const { __v, ...updatedProject } = this.projectRepository.findByIdAndUpdate(id, incomeUpdatedProject, { new: true }).exec();
+
+    return updatedProject;
   }
 
   public async deleteProjectById(id: Types.ObjectId): Promise<ProjectEntityWithId> {

@@ -12,7 +12,9 @@ export class PageService {
   constructor(@InjectModel(PageEntity.name) private readonly pageRepository: Model<PageEntity>) {}
 
   public async createPage(createPageDto: CreatePageDto): Promise<PageEntityWithId> {
-    return new this.pageRepository(createPageDto).save();
+    const { __v, ...newPage } = new this.pageRepository(createPageDto).save();
+
+    return newPage;
   }
 
   public async clone(page: PageEntityWithId) {
@@ -70,11 +72,13 @@ export class PageService {
     id: Types.ObjectId,
     payload: UpdatePageDto,
   ): Promise<PageEntityWithId> {
-    let updatedPage = payload;
-    if (updatedPage.projectId) {
-      updatedPage = { ...updatedPage, projectId: new Types.ObjectId(updatedPage.projectId._id) };
+    let incomeUpdatedPage = payload;
+    if (incomeUpdatedPage.projectId) {
+      incomeUpdatedPage = { ...incomeUpdatedPage, projectId: new Types.ObjectId(incomeUpdatedPage.projectId._id) };
     }
-    return this.pageRepository.findByIdAndUpdate(id, updatedPage, { new: true }).exec();
+    const { __v, ...updatedPage } = this.pageRepository.findByIdAndUpdate(id, incomeUpdatedPage, { new: true }).exec();
+
+    return updatedPage;
   }
 
   public async deletePageById(id: Types.ObjectId): Promise<PageEntityWithId> {

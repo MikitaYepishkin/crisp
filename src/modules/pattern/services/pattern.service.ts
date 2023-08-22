@@ -12,7 +12,8 @@ export class PatternService {
   ) {}
 
   public async createPattern(createPatternDto: CreatePatternDto): Promise<PatternEntityWithId> {
-    return new this.patternRepository(createPatternDto).save();
+    const { __v, ...newPattern } = new this.patternRepository(createPatternDto).save();
+    return newPattern;
   }
 
   public async clone(pattern: PatternEntityWithId) {
@@ -80,14 +81,16 @@ export class PatternService {
     id: Types.ObjectId,
     payload: UpdatePatternDto,
   ): Promise<PatternEntityWithId> {
-    let updatedPattern = payload;
-    if (updatedPattern) {
-      updatedPattern = {
-        ...updatedPattern,
-        frameworkId: new Types.ObjectId(updatedPattern.frameworkId._id),
+    let incomeUpdatedPattern = payload;
+    if (incomeUpdatedPattern) {
+      incomeUpdatedPattern = {
+        ...incomeUpdatedPattern,
+        frameworkId: new Types.ObjectId(incomeUpdatedPattern.frameworkId._id),
       };
     }
-    return this.patternRepository.findByIdAndUpdate(id, updatedPattern, { new: true }).exec();
+    const { __v, updatedPattern } = this.patternRepository.findByIdAndUpdate(id, incomeUpdatedPattern, { new: true }).exec();
+
+    return updatedPattern;
   }
 
   public async deletePatternById(id: Types.ObjectId): Promise<PatternEntityWithId> {

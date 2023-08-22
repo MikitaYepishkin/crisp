@@ -51,7 +51,7 @@ export class ElementService {
     //  : parentElementId;
     pageId = typeof pageId === 'string' ? new Types.ObjectId(pageId) : pageId;
 
-    const newEl =  new this.elementRepository({
+    const { __v, ...newEl } =  new this.elementRepository({
       name,
       description,
       pageId,
@@ -199,7 +199,9 @@ export class ElementService {
     if (updatedPayload.pageId) {
       updatedPayload.pageId = new Types.ObjectId(updatedPayload.pageId);
     }
-    return this.elementRepository.findByIdAndUpdate(id, payload, { new: true }).exec();
+    const { __v, ...updatedElement } = this.elementRepository.findByIdAndUpdate(id, payload, { new: true }).exec();
+
+    return updatedElement;
   }
 
   public async deleteElementById(id: Types.ObjectId): Promise<ElementEntityWithId> {
