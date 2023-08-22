@@ -90,7 +90,7 @@ export class PatternService {
         frameworkId: new Types.ObjectId(incomeUpdatedPattern.frameworkId._id),
       };
     }
-    const { __v, updatedPattern } = await this.patternRepository.findByIdAndUpdate(id, incomeUpdatedPattern, { new: true }).exec();
+    const { __v, ...updatedPattern } = await this.patternRepository.findByIdAndUpdate(id, incomeUpdatedPattern, { new: true }).exec();
 
     return new Promise(resolve => {
       resolve(updatedPattern);
