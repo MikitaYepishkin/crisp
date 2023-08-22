@@ -15,7 +15,7 @@ export class ProjectService {
   ) {}
 
   public async createProject(createProjectDto: CreateProjectDto): Promise<ProjectEntityWithId> {
-    const { __v, ...newProject } = new this.projectRepository({
+    const { __v, ...newProject } = await new this.projectRepository({
       ...createProjectDto,
       frameworkId: new Types.ObjectId(createProjectDto.frameworkId),
     }).save();
@@ -106,7 +106,7 @@ export class ProjectService {
         }
       }
     }
-    const { __v, ...updatedProject } = this.projectRepository.findByIdAndUpdate(id, incomeUpdatedProject, { new: true }).exec();
+    const { __v, ...updatedProject } = await this.projectRepository.findByIdAndUpdate(id, incomeUpdatedProject, { new: true }).exec();
 
     return new Promise(resolve => {
       resolve(updatedProject);
