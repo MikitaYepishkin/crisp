@@ -15,12 +15,19 @@ export class ProjectService {
   ) {}
 
   public async createProject(createProjectDto: CreateProjectDto): Promise<ProjectEntityWithId> {
+    /*
     const { __v, ...newProject } = await new this.projectRepository({
       ...createProjectDto,
       frameworkId: new Types.ObjectId(createProjectDto.frameworkId),
     }).save();
 
     return Promise.resolve(newProject);
+    */
+
+    return new this.projectRepository({
+      ...createProjectDto,
+      frameworkId: new Types.ObjectId(createProjectDto.frameworkId),
+    }).save();
   }
 
   public async clone(project: ProjectEntityWithId) {
