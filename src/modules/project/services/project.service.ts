@@ -24,10 +24,28 @@ export class ProjectService {
     return Promise.resolve(newProject);
     */
 
-    return new this.projectRepository({
+    /*
+    let res: any;
+
+    const newModel = new this.projectRepository({
+      ...createProjectDto,
+      frameworkId: new Types.ObjectId(createProjectDto.frameworkId),
+    });
+    await newModel.save((err: any, obj: any) => {
+      res = err || obj;
+    });
+
+    return Promise.resolve(res);
+    */
+
+    const data = await new this.projectRepository({
       ...createProjectDto,
       frameworkId: new Types.ObjectId(createProjectDto.frameworkId),
     }).save();
+
+    console.log(`Data ${typeof data}  from create: ${JSON.stringify(data)}`);
+
+    return data;
   }
 
   public async clone(project: ProjectEntityWithId) {
