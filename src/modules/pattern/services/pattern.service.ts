@@ -13,9 +13,7 @@ export class PatternService {
 
   public async createPattern(createPatternDto: CreatePatternDto): Promise<PatternEntityWithId> {
     const { __v, ...newPattern } = await new this.patternRepository(createPatternDto).save();
-    return new Promise(resolve => {
-      resolve(newPattern);
-    });
+    return Promise.resolve(newPattern);
   }
 
   public async clone(pattern: PatternEntityWithId) {
@@ -92,9 +90,7 @@ export class PatternService {
     }
     const { __v, ...updatedPattern } = await this.patternRepository.findByIdAndUpdate(id, incomeUpdatedPattern, { new: true }).exec();
 
-    return new Promise(resolve => {
-      resolve(updatedPattern);
-    });
+    return Promise.resolve(updatedPattern);
   }
 
   public async deletePatternById(id: Types.ObjectId): Promise<PatternEntityWithId> {

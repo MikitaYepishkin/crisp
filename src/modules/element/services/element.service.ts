@@ -61,9 +61,7 @@ export class ElementService {
       selectors
     }).save();
 
-    return new Promise(resolve => {
-      resolve(newEl);
-    });
+    return Promise.resolve(newEl);
   }
 
   public async asyncMapClone(datas: any, servive: any, transformFunc: any) {
@@ -203,9 +201,7 @@ export class ElementService {
     }
     const { __v, ...updatedElement } = await this.elementRepository.findByIdAndUpdate(id, payload, { new: true }).exec();
 
-    return new Promise(resolve => {
-      resolve(updatedElement);
-    });
+    return Promise.resolve(updatedElement);
   }
 
   public async deleteElementById(id: Types.ObjectId): Promise<ElementEntityWithId> {
