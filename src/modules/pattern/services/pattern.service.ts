@@ -12,8 +12,10 @@ export class PatternService {
   ) {}
 
   public async createPattern(createPatternDto: CreatePatternDto): Promise<PatternEntityWithId> {
-    const { __v, ...newPattern } = await new this.patternRepository(createPatternDto).save();
-    return Promise.resolve(newPattern);
+    //const { __v, ...newPattern } = new this.patternRepository(createPatternDto).save();
+    // const result = await (new this.patternRepository(createPatternDto).save());
+    // return Promise.resolve(newPattern);
+    return new this.patternRepository(createPatternDto).save();
   }
 
   public async clone(pattern: PatternEntityWithId) {
