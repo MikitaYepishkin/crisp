@@ -43,7 +43,7 @@ export class ProjectService {
       frameworkId: new Types.ObjectId(createProjectDto.frameworkId),
     }).save();
 
-    const { __v, ...newProject } = data;
+    const { __v, ...newProject } = (await data);
 
     console.log(`Data ${typeof data}  from create: ${JSON.stringify(data)}`);
     console.log(data);
