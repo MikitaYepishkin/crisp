@@ -15,40 +15,10 @@ export class ProjectService {
   ) {}
 
   public async createProject(createProjectDto: CreateProjectDto): Promise<ProjectEntityWithId> {
-    /*
-    const { __v, ...newProject } = await new this.projectRepository({
+    return new this.projectRepository({
       ...createProjectDto,
       frameworkId: new Types.ObjectId(createProjectDto.frameworkId),
     }).save();
-
-    return Promise.resolve(newProject);
-    */
-
-    /*
-    let res: any;
-
-    const newModel = new this.projectRepository({
-      ...createProjectDto,
-      frameworkId: new Types.ObjectId(createProjectDto.frameworkId),
-    });
-    await newModel.save((err: any, obj: any) => {
-      res = err || obj;
-    });
-
-    return Promise.resolve(res);
-    */
-
-    const data = await new this.projectRepository({
-      ...createProjectDto,
-      frameworkId: new Types.ObjectId(createProjectDto.frameworkId),
-    }).save();
-
-    const { __v, ...newProject } = (await data);
-
-    console.log(`Data ${typeof data}  from create: ${JSON.stringify(data)}`);
-    console.log(data);
-    console.log(newProject);
-    return data;
   }
 
   public async clone(project: ProjectEntityWithId) {
@@ -132,9 +102,8 @@ export class ProjectService {
         }
       }
     }
-    const { __v, ...updatedProject } = await this.projectRepository.findByIdAndUpdate(id, incomeUpdatedProject, { new: true }).exec();
 
-    return Promise.resolve(updatedProject);
+    return this.projectRepository.findByIdAndUpdate(id, incomeUpdatedProject, { new: true }).exec();
   }
 
   public async deleteProjectById(id: Types.ObjectId): Promise<ProjectEntityWithId> {

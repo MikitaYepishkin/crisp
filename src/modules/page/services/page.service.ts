@@ -12,9 +12,7 @@ export class PageService {
   constructor(@InjectModel(PageEntity.name) private readonly pageRepository: Model<PageEntity>) {}
 
   public async createPage(createPageDto: CreatePageDto): Promise<PageEntityWithId> {
-    const { __v, ...newPage } = await new this.pageRepository(createPageDto).save();
-
-    return Promise.resolve(newPage);
+    return new this.pageRepository(createPageDto).save();
   }
 
   public async clone(page: PageEntityWithId) {
@@ -76,9 +74,7 @@ export class PageService {
     if (incomeUpdatedPage.projectId) {
       incomeUpdatedPage = { ...incomeUpdatedPage, projectId: new Types.ObjectId(incomeUpdatedPage.projectId._id) };
     }
-    const { __v, ...updatedPage } = await this.pageRepository.findByIdAndUpdate(id, incomeUpdatedPage, { new: true }).exec();
-
-    return Promise.resolve(updatedPage);
+    return this.pageRepository.findByIdAndUpdate(id, incomeUpdatedPage, { new: true }).exec();
   }
 
   public async deletePageById(id: Types.ObjectId): Promise<PageEntityWithId> {
