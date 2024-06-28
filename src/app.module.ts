@@ -13,6 +13,7 @@ import { ElementModule } from './modules/element';
 import { SelectorModule } from './modules/selector';
 import { ResourceModule } from './modules/resource';
 import { RoleModule } from './modules/role';
+import { AIGeneratorModule } from './modules/ai-generator';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { RoleModule } from './modules/role';
     SelectorModule,
     ResourceModule,
     RoleModule,
+    AIGeneratorModule,
   ]
 })
 export class AppModule {}
