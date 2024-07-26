@@ -25,29 +25,29 @@ export class AIGeneratorService {
   public async generatePageTest(
     aiGeneratorPromt: AIGeneratorPromtDto
   ): Promise<string> {
-    conole.log('entered to ai generation');
+    console.log('entered to ai generation');
 
     try {
       if(aiGeneratorPromt.chatgptKey) {
-        conole.log('preparing ai generation');
+        console.log('preparing ai generation');
         const config = aiGeneratorPromt.chatgptOrganizationId ?
         { apiKey: aiGeneratorPromt.chatgptKey, organization: aiGeneratorPromt.chatgptOrganizationId } :
         { apiKey: aiGeneratorPromt.chatgptKey};
           
-        conole.log('started ai generation');
+        console.log('started ai generation');
         const openai = new OpenAI(config);
   
         const response = await openai.chat.completions.create({
           messages: [{ role: 'user', content: aiGeneratorPromt.chatgptPromt }],
           model: aiGeneratorPromt.chatgptModelVersion || 'gpt-4o'
         });
-        conole.log('ended ai generation');
+        console.log('ended ai generation');
         return Promise.resolve(response.choices[0].message.content || '');
       }  else {
         throw new Error('Empty chartgpt key');
       }
     } catch(e) {
-      conole.log(`Error: ${e}`);
+      console.log(`Error: ${e}`);
       return Promise.reject(e);
     }
   };
