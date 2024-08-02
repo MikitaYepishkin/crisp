@@ -1,6 +1,6 @@
 export const DEFAULT_DATA = {
     context: 'You are automation tester.',
-    task: (currentUrl: string) => `Go to next site: "${currentUrl}" and using WebdriverIO generate full page object model for all components and navigations.`,
+    task: 'Go to next site: ${currentUrl} and using WebdriverIO generate full page object model for all components and navigations.',
     example: {
         context: 'Example of what the result should look like, for site "https://the-internet.herokuapp.com/login" a result should look like the following example in javascript language:',
         expectedResoult: `import Page from './page.js'
